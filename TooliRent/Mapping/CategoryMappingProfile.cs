@@ -19,8 +19,8 @@ namespace TooliRent.Mapping
 
                 // SELECT: Category -> CategorySelectDto
                 CreateMap<Category, CategorySelectDTO>()
-                    .ForMember(dest => dest.ToolCount, opt => opt.Ignore()) // Sätts manuellt i service
-                    .ForMember(dest => dest.HasAvailableTools, opt => opt.Ignore()); // Sätts manuellt i service
+                    .ForMember(dest => dest.ToolCount, opt => opt.Ignore()) 
+                    .ForMember(dest => dest.HasAvailableTools, opt => opt.Ignore()); 
             }
         
     }
