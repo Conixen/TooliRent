@@ -26,11 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Mapping\" />
     <Folder Include="DTO%3bs\" />
-    <Folder Include="Auth\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>
