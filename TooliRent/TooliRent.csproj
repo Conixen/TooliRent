@@ -27,13 +27,10 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Data\" />
     <Folder Include="Mapping\" />
     <Folder Include="DTO%3bs\" />
     <Folder Include="Auth\" />
     <Folder Include="Validators\" />
-    <Folder Include="Service\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
