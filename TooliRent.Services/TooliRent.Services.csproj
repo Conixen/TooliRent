@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TooliRent.Core\TooliRent.Core.csproj" />
-    <ProjectReference Include="..\TooliRent.Infrastructure\TooliRent.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
