@@ -21,7 +21,5 @@ namespace TooliRent.DTOs.AuthDTOs
         [MinLength(6)]
         public string Password { get; set; } = string.Empty;
 
-        [MaxLength(20)]
-        public string? PhoneNumber { get; set; }
     }
 }

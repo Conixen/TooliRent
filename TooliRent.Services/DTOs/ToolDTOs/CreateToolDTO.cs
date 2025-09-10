@@ -16,6 +16,9 @@ namespace TooliRent.DTO_s.ToolsDTOs
         [Required(ErrorMessage = "Model is required")]
         [MaxLength(50, ErrorMessage = "Model cannot exceed 50 characters")]
         public string Model { get; set; } = string.Empty;
+        
+        [MaxLength(100, ErrorMessage = "Serial number cannot exceed 100 characters")]
+        public string? SerialNumber { get; set; }
 
         [MaxLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
         public string? Description { get; set; }
@@ -28,7 +31,5 @@ namespace TooliRent.DTO_s.ToolsDTOs
         [Range(1, int.MaxValue, ErrorMessage = "Please select a valid category")]
         public int CategoryId { get; set; }
 
-        [MaxLength(100, ErrorMessage = "Serial number cannot exceed 100 characters")]
-        public string? SerialNumber { get; set; }
     }
 }
