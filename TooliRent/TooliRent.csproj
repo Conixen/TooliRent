@@ -32,4 +32,10 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TooliRent.Core\TooliRent.Core.csproj" />
+    <ProjectReference Include="..\TooliRent.Infrastructure\TooliRent.Infrastructure.csproj" />
+    <ProjectReference Include="..\TooliRent.Services\TooliRent.Services.csproj" />
+  </ItemGroup>
+
 </Project>
