@@ -1,4 +1,5 @@
-
+using Microsoft.EntityFrameworkCore;
+using TooliRent.Infrastructure.Data;
 namespace TooliRent
 {
     public class Program
@@ -8,6 +9,10 @@ namespace TooliRent
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            // DbContexts
+            builder.Services.AddDbContext<TooliRentContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

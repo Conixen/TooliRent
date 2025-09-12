@@ -14,6 +14,9 @@ namespace TooliRent.Models
         public decimal TotalPrice { get; set; }
         public decimal LateFee { get; set; }
 
+        public DateTime? CheckedOutAt { get; set; } 
+        public DateTime? ReturnedAt { get; set; }   
+
         // foreign key
         public int UserId { get; set; }
         public int ToolId { get; set; }
