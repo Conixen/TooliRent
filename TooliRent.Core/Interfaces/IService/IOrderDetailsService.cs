@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TooliRent.DTO_s.OrderDetailsDTOs;
+using TooliRent.Models;
 
 namespace TooliRent.Core.Interfaces.IService
 {
     public interface IOrderDetailsService
     {
-        Task<OrderDetailsDto> CreateOrderDetailsAsync(CreateOrderDTO dto);
-        Task<List<OrderDetailsDto>> GetAllOrderDetailsAsync();
-        Task<OrderDetailsDto> GetOrderDetailsByIdAsync(int id);
-        Task UpdateOrderDetailsAsync(int id, UpdateOrderDTO dto);
-        Task DeleteOrderDetailsAsync(int id);
+        Task<OrderDeatils> GetByIdAsync(int id);
+        Task<List<OrderDeatils>> GetAllAsync();
+        Task<OrderDeatils> AddAsync(OrderDeatils orderDeatils);
+        Task UpdateAsync(OrderDeatils orderDeatils);
+        Task DeleteAsync(int id);
     }
+
 }
