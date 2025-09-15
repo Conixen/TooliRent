@@ -13,7 +13,7 @@ namespace TooliRent.Core.Interfaces.IRepository
         Task<List<Reservation>> GetAllAsync();
         Task<Reservation> AddAsync(Reservation reservation);
 
-        // ReservationTool operationer inkluderas här
+
         Task AddReservationToolAsync(ReservationTool reservationTool);
         Task RemoveReservationToolAsync(int reservationId, int toolId);
     }

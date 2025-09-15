@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TooliRent.Models;
-
-namespace TooliRent.Core.Interfaces.IRepository
+namespace TooliRent.Core.Interfaces.IService
 {
-    public interface IUserRepository    // För AuthService
+    public interface IAuthService  
     {
         Task<User> GetByIdAsync(int id);
         Task<List<User>> GetAllAsync();
