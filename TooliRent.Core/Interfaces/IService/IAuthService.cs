@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TooliRent.DTOs.AuthDTOs;
 using TooliRent.Models;
+
 namespace TooliRent.Core.Interfaces.IService
 {
     public interface IAuthService  
     {
-        Task<User> GetByIdAsync(int id);
-        Task<List<User>> GetAllAsync();
-        Task<User> AddAsync(User user);
-        Task UpdateAsync(User user);
-        Task DeleteAsync(int id);
+        // Authentication
+        Task<AuthResponseDTO> RegisterAsync(CreateUserDTO dto);
+        Task<AuthResponseDTO> LoginAsync(LogInDTO dto);
+
+        // Profile management
+        Task<UserDTO> GetProfileAsync(int userId);
+        Task UpdateProfileAsync(int userId, UpdateUserDTO dto);
+
+        // Password management
+        Task ChangePasswordAsync(int userId, ForgotPasswordDTO dto);
+        Task ForgotPasswordAsync(ForgotPasswordDTO dto);
+
+        // Admin operations (om du har UpdateUserStatusDto)
+        Task UpdateUserStatusAsync(int userId, UpdateUserStatusDTO dto);
     }
 }
