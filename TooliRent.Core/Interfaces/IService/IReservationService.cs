@@ -5,16 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TooliRent.Models;
 
-namespace TooliRent.Core.Interfaces.IRepository
+namespace TooliRent.Core.Interfaces.IService
 {
-    public interface IReservationRepository
+    public interface IReservationService
     {
         Task<Reservation> GetByIdAsync(int id);
         Task<List<Reservation>> GetAllAsync();
         Task<Reservation> AddAsync(Reservation reservation);
-
-        // ReservationTool operationer inkluderas här
-        Task AddReservationToolAsync(ReservationTool reservationTool);
-        Task RemoveReservationToolAsync(int reservationId, int toolId);
+        Task UpdateAsync(Reservation reservation);
+        Task DeleteAsync(int id);
     }
 }
