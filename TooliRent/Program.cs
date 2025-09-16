@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TooliRent.Infrastructure.Data;
+using TooliRent.Core.Interfaces;
+using TooliRent.Core.Interfaces.IRepository;
+using TooliRent.Infrastructure.Repositories;
+
 namespace TooliRent
 {
     public class Program
@@ -13,6 +17,14 @@ namespace TooliRent
             // DbContexts
             builder.Services.AddDbContext<TooliRentContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Repositories
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IToolRepository, ToolRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+            builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
