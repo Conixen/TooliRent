@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TooliRent.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InnitMigra : Migration
+    public partial class InitialCreate3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,7 @@ namespace TooliRent.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
@@ -109,7 +109,7 @@ namespace TooliRent.Infrastructure.Migrations
                     ReturnedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ToolId = table.Column<int>(type: "int", nullable: false),
-                    ReservationId = table.Column<int>(type: "int", nullable: false)
+                    ReservationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -185,6 +185,11 @@ namespace TooliRent.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "Id", "CanceledAt", "CanceledReason", "Date2Hire", "Date2Return", "Status", "UserId" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Active", 2 });
+
+            migrationBuilder.InsertData(
                 table: "Tools",
                 columns: new[] { "Id", "Brand", "CategoryId", "Description", "IsAvailable", "Model", "Name", "PricePerDay", "Status" },
                 values: new object[,]
@@ -203,7 +208,7 @@ namespace TooliRent.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "OrderDeatils",
                 columns: new[] { "Id", "CheckedOutAt", "Date2Hire", "Date2Return", "LateFee", "ReservationId", "ReturnedAt", "Status", "ToolId", "TotalPrice", "UserId" },
-                values: new object[] { 1, new DateTime(2025, 9, 7, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(4036), new DateTime(2025, 9, 7, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(3561), new DateTime(2025, 9, 10, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(3703), 0.00m, 0, new DateTime(2025, 9, 10, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(5765), "Returned", 2, 105.00m, 3 });
+                values: new object[] { 1, new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.00m, null, new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Returned", 2, 105.00m, 3 });
 
             migrationBuilder.InsertData(
                 table: "ReservationTools",

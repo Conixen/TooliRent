@@ -20,7 +20,7 @@ namespace TooliRent.Models
         // foreign key
         public int UserId { get; set; }
         public int ToolId { get; set; }
-        public int ReservationId { get; set; }
+        public int? ReservationId { get; set; }
 
         // navigation property
         public User User { get; set; }      // One user can have many orders

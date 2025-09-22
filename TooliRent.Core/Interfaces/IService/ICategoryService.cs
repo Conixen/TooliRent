@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TooliRent.DTO_s.CategoryDTOs;
 using TooliRent.Models;
 
 
@@ -10,11 +11,11 @@ namespace TooliRent.Core.Interfaces.IService
 {
     public interface ICategoryService
     {
-        Task<Category> GetByIdAsync(int id);
-        Task<List<Category>> GetAllAsync();
-        Task<Category> AddAsync(Category category);
-        Task UpdateAsync(Category category);
-        Task DeleteAsync(int id);
+        Task<CategoryDto> GetCategoryByIdAsync(int id);
+        Task<List<CategoryDto>> GetAllCategoriesAsync();
+        Task<CategoryDto> CreateCategoryAsync(CreateCategoryDTO dto);
+        Task<CategoryDto> UpdateCategoryAsync(int id, UpdateCategoryDTO dto);
+        Task DeleteCategoryAsync(int id);
     }
 
 }

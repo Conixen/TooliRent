@@ -13,7 +13,11 @@ namespace TooliRent.Infrastructure.Repositories
     public class CategoryRepository : ICategoryRepository
     {
         private readonly TooliRentContext _context;
-        
+
+        public CategoryRepository(TooliRentContext context)
+        {
+            _context = context;
+        }
         public async Task<Category> GetByIdAsync(int id)
         {
             return await _context.Categorys.FindAsync(id);
