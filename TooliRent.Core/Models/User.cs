@@ -17,8 +17,8 @@ namespace TooliRent.Models
         [MaxLength(150)]
         public string Email { get; set; }
         [Required]
-        [MaxLength(50)]
-        public string PasswordHash { get; set; }
+        [MaxLength(255)]
+        public string PasswordHash { get; set; } = string.Empty; // Hashed password
         [Required]
         [MaxLength(20)]
         public string Role { get; set; } // Admin or member
