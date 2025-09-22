@@ -295,6 +295,17 @@ namespace TooliRent.Infrastructure.Data
 
                 }
             );
+            // Seed Reservations
+            modelBuilder.Entity<Reservation>().HasData(
+                new Reservation
+                {
+                    Id = 1,
+                    Date2Hire = new DateTime(2025, 9, 1),
+                    Date2Return = new DateTime(2025, 9, 4),
+                    Status = "Active",
+                    UserId = 2,
+                }
+            );      
             // Seed ReservationTools
             modelBuilder.Entity<ReservationTool>().HasData(
                 new ReservationTool
@@ -323,13 +334,13 @@ namespace TooliRent.Infrastructure.Data
                 new OrderDeatils
                 {
                     Id = 1,
-                    Date2Hire = DateTime.UtcNow.AddDays(-5),
-                    Date2Return = DateTime.UtcNow.AddDays(-2),
+                    Date2Hire = new DateTime(2025, 9, 1),
+                    Date2Return = new DateTime(2025, 9, 4),
                     Status = "Returned",
                     TotalPrice = 105.00m, // 3 dagar * 35kr
                     LateFee = 0.00m,
-                    CheckedOutAt = DateTime.UtcNow.AddDays(-5),
-                    ReturnedAt = DateTime.UtcNow.AddDays(-2),
+                    CheckedOutAt = new DateTime(2025, 9, 1),
+                    ReturnedAt = new DateTime(2025, 9, 4),
                     UserId = 3,
                     ToolId = 2, // Vinkelslip
 

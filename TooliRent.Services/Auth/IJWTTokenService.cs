@@ -12,12 +12,13 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using TooliRent.Models;
 
 namespace TooliRent.Services.Auth
 {
     public interface IJWTTokenService
     {
-        string GenerateToken(IdentityUser user, IEnumerable<string>? roles = null);
+        string GenerateToken(User user, IEnumerable<string>? roles = null);
     }
     public class JWTTokenService : IJWTTokenService
     {
@@ -26,19 +27,20 @@ namespace TooliRent.Services.Auth
         {
             _cfg = cfg;
         }
-        public string GenerateToken(IdentityUser user, IEnumerable<string>? roles = null)
+        public string GenerateToken(User user, IEnumerable<string>? roles = null)
         {
             var jwt = _cfg.GetSection("Jwt");
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
-                new Claim (ClaimValueTypes.UpnName, user.UserName ?? user.Email ?? ""),
+                new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
+                new Claim("UserId", user.Id.ToString()),
             };
             if (roles is not null)
             {
                 claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
-
+                claims.Add(new Claim(ClaimTypes.Role, user.Role));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
