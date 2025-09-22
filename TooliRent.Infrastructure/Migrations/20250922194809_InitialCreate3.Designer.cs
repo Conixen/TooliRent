@@ -12,8 +12,8 @@ using TooliRent.Infrastructure.Data;
 namespace TooliRent.Infrastructure.Migrations
 {
     [DbContext(typeof(TooliRentContext))]
-    [Migration("20250912125133_InnitMigra")]
-    partial class InnitMigra
+    [Migration("20250922194809_InitialCreate3")]
+    partial class InitialCreate3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,7 +95,7 @@ namespace TooliRent.Infrastructure.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("ReservationId")
+                    b.Property<int?>("ReservationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ReturnedAt")
@@ -130,12 +130,11 @@ namespace TooliRent.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CheckedOutAt = new DateTime(2025, 9, 7, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(4036),
-                            Date2Hire = new DateTime(2025, 9, 7, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(3561),
-                            Date2Return = new DateTime(2025, 9, 10, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(3703),
+                            CheckedOutAt = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LateFee = 0.00m,
-                            ReservationId = 0,
-                            ReturnedAt = new DateTime(2025, 9, 10, 12, 51, 32, 822, DateTimeKind.Utc).AddTicks(5765),
+                            ReturnedAt = new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Returned",
                             ToolId = 2,
                             TotalPrice = 105.00m,
@@ -177,6 +176,17 @@ namespace TooliRent.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CanceledAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Active",
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("TooliRent.Models.ReservationTool", b =>
@@ -419,8 +429,8 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -466,8 +476,7 @@ namespace TooliRent.Infrastructure.Migrations
                     b.HasOne("TooliRent.Models.Reservation", "Reservation")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("TooliRent.Models.Tool", "Tool")
                         .WithMany("OrderDetails")
