@@ -8,10 +8,5 @@ namespace TooliRent.DTOs.AuthDTOs
         [MaxLength(20)]
         public string Role { get; set; } = string.Empty; // Admin, Member
         
-        [Required]
-        public bool IsActive { get; set; }
-
-        [MaxLength(500)]
-        public string? Reason { get; set; }
     }
 }
