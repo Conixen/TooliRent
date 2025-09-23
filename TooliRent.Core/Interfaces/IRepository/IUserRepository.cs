@@ -10,6 +10,7 @@ namespace TooliRent.Core.Interfaces.IRepository
     public interface IUserRepository    // För AuthService
     {
         Task<User> GetByIdAsync(int id);
+        Task<List<User>> GetAllUserAsync();
         Task<User> GetByEmailAsync(string email);  
         Task<User> AddAsync(User user);
         Task UpdateAsync(User user);

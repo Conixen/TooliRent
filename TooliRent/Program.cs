@@ -38,11 +38,18 @@ namespace TooliRent
 
             // Services
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IAuthService, UserService>();
             builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 
             // AutoMapper
-            builder.Services.AddAutoMapper(cfg => cfg.AddProfile<CategoryMappingProfile>());
+
             //builder.Services.AddAutoMapper(typeof(CategoryMappingProfile));
+            //builder.Services.AddAutoMapper(typeof(AuthMappingProfile));
+            builder.Services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<CategoryMappingProfile>();
+                cfg.AddProfile<AuthMappingProfile>();
+            });
 
 
             builder.Services.AddControllers();
