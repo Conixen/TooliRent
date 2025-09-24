@@ -8,8 +8,8 @@ namespace TooliRent.DTO_s.ReservationDTOs
         public DateTime Date2Hire { get; set; }
         public DateTime Date2Return { get; set; }
         public string Status { get; set; } = string.Empty;
-        public DateTime? CancelledAt { get; set; }
-        public string? CancellationReason { get; set; }
+        public DateTime? CanceledAt { get; set; }
+        public string? CanceledReason { get; set; }
         public string? Notes { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

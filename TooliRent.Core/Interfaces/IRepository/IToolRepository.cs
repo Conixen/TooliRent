@@ -16,5 +16,6 @@ namespace TooliRent.Core.Interfaces.IRepository
         Task<Tool> AddAsync(Tool tool);
         Task UpdateAsync(Tool tool);
         Task DeleteAsync(int id);
+
     }
 }
