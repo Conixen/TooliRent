@@ -27,6 +27,9 @@ namespace TooliRent.Models
         public decimal PricePerDay { get; set; }
         public bool IsAvailable { get; set; }
 
+        [MaxLength(100)]  
+        public string? SerialNumber { get; set; }
+
         // foreign key
         public int CategoryId { get; set; }
 

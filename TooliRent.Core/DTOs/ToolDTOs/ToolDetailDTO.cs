@@ -11,8 +11,8 @@
         public decimal PricePerDay { get; set; }
         public bool IsAvailable { get; set; }
         public string? SerialNumber { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        //public DateTime CreatedAt { get; set; }
+        //public DateTime UpdatedAt { get; set; }
         public ToolCategoryDTO Category { get; set; } = null!;
     }
 }
