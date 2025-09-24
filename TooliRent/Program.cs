@@ -39,6 +39,7 @@ namespace TooliRent
             // Services
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAuthService, UserService>();
+            builder.Services.AddScoped<IToolService, ToolService>();
             builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 
             // AutoMapper
@@ -49,6 +50,7 @@ namespace TooliRent
             {
                 cfg.AddProfile<CategoryMappingProfile>();
                 cfg.AddProfile<AuthMappingProfile>();
+                cfg.AddProfile<ToolMappingProfile>();
             });
 
 
