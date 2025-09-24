@@ -19,7 +19,8 @@ namespace TooliRent.Models
         public DateTime CanceledAt { get; set; }
         [MaxLength(250)]
         public string? CanceledReason { get; set; }
-
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         // foreign key
         public int UserId { get; set; }
