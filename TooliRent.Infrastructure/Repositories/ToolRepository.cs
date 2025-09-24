@@ -8,35 +8,60 @@ using TooliRent.Models;
 using TooliRent.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace TooliRent.Infrastructure.Repositories
 {
     public class ToolRepository : IToolRepository
     {
         private readonly TooliRentContext _context;
+
         public ToolRepository(TooliRentContext context)
         {
             _context = context;
         }
-        public async Task<Tool> GetByIdAsync(int id)
+
+        public async Task<Tool?> GetByIdAsync(int id)
         {
-            return await _context.Tools.FindAsync(id);
+            return await _context.Tools
+                .Include(t => t.Category)
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
+
         public async Task<List<Tool>> GetAllAsync()
         {
-            return await _context.Tools.ToListAsync();
+            return await _context.Tools
+                .Include(t => t.Category)
+                .ToListAsync();
         }
+
+        public async Task<List<Tool>> GetAvailableAsync()
+        {
+            return await _context.Tools
+                .Include(t => t.Category)
+                .Where(t => t.IsAvailable)
+                .ToListAsync();
+        }
+
+        public async Task<List<Tool>> GetByCategoryAsync(int categoryId)
+        {
+            return await _context.Tools
+                .Include(t => t.Category)
+                .Where(t => t.CategoryId == categoryId)
+                .ToListAsync();
+        }
+
         public async Task<Tool> AddAsync(Tool tool)
         {
             _context.Tools.Add(tool);
             await _context.SaveChangesAsync();
             return tool;
         }
+
         public async Task UpdateAsync(Tool tool)
         {
             _context.Tools.Update(tool);
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteAsync(int id)
         {
             var tool = await _context.Tools.FindAsync(id);
