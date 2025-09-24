@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TooliRent.DTO_s.ReservationDTOs;
 using TooliRent.Models;
+using TooliRent.DTOs.AuthDTOs;
 
 namespace TooliRent.Mapping
 {
