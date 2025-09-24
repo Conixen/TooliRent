@@ -11,14 +11,11 @@ namespace TooliRent.Core.Interfaces.IService
     public interface IReservationService
     {
         // Basic CRUD
-        Task<Reservation> GetByIdAsync(int id);
+        Task<ReservationDetailDTO?> GetByIdAsync(int id);
+        Task<List<ReservationSummaryDTO>> GetAllAsync();
         Task<List<ReservationSummaryDTO>> GetByUserIdAsync(int userId);
-        Task<List<Reservation>> GetAllAsync();
-        Task<Reservation> AddAsync(Reservation reservation);
-        Task UpdateAsync(Reservation reservation);
         Task DeleteAsync(int id);
 
-        
         // Create & Update
         Task<ReservationDetailDTO> CreateAsync(CreateReservationDTO dto, int userId);
         Task UpdateAsync(int id, UpdateReservationDTO dto);
