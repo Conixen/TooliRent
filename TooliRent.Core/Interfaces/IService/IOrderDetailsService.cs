@@ -33,4 +33,4 @@ namespace TooliRent.Core.Interfaces.IService
     }
 }
 
-}
+
