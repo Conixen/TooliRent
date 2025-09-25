@@ -16,6 +16,8 @@ namespace TooliRent.Models
 
         public DateTime? CheckedOutAt { get; set; } 
         public DateTime? ReturnedAt { get; set; }   
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         // foreign key
         public int UserId { get; set; }
