@@ -41,6 +41,7 @@ namespace TooliRent
             builder.Services.AddScoped<IAuthService, UserService>();
             builder.Services.AddScoped<IToolService, ToolService>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
+            builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 
             // AutoMapper
@@ -53,6 +54,7 @@ namespace TooliRent
                 cfg.AddProfile<AuthMappingProfile>();
                 cfg.AddProfile<ToolMappingProfile>();
                 cfg.AddProfile<ReservationMappingProfile>();
+                cfg.AddProfile<OrderMappingProfile>();
             });
 
 
