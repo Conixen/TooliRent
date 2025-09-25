@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TooliRent.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TooliRent.Infrastructure.Data;
 namespace TooliRent.Infrastructure.Migrations
 {
     [DbContext(typeof(TooliRentContext))]
-    partial class TooliRentContextModelSnapshot : ModelSnapshot
+    [Migration("20250925190344_updatedOrder")]
+    partial class updatedOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
