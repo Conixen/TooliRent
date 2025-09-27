@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TooliRent.Core.DTOs.CommonDTOs;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTO_s.ReservationDTOs;
@@ -15,6 +16,9 @@ namespace TooliRent.Controllers
         {
             _reservationService = reservationService;
         }
+
+        // GET: api/reservation
+        [Authorize(Roles = "Admin")]   // admin only
         [HttpGet]
         public async Task<IActionResult> GetAllReservations()
         {
@@ -29,6 +33,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/reservation/active
+        [Authorize(Roles = "Admin")]   // admin only
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveReservations()
         {
@@ -43,6 +49,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/reservation/{id}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReservationById(int id)
         {
@@ -61,6 +69,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/reservation/user/{userId}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetUserReservations(int userId)
         {
@@ -75,6 +85,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // POST: api/reservation/user/{userId}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpPost("user/{userId}")]
         public async Task<IActionResult> CreateReservation(int userId, [FromBody] CreateReservationDTO dto)
         {
@@ -100,6 +112,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // PUT: api/reservation/{id}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReservation(int id, [FromBody] UpdateReservationDTO dto)
         {
@@ -125,6 +139,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // PATCH: api/reservation/{id}/cancel
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpPatch("{id}/cancel")]
         public async Task<IActionResult> CancelReservation(int id, [FromBody] ReservationCancelDTO dto)
         {
@@ -150,6 +166,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/reservation/{reservationId}/can-cancel/user/{userId}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("{reservationId}/can-cancel/user/{userId}")]
         public async Task<IActionResult> CanUserCancel(int reservationId, int userId)
         {
@@ -164,6 +182,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/reservation/{reservationId}/can-modify/user/{userId}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("{reservationId}/can-modify/user/{userId}")]
         public async Task<IActionResult> CanUserModify(int reservationId, int userId)
         {
@@ -178,6 +198,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // POST: api/reservation/check-availability
+        [Authorize]     // any authenticated user
         [HttpPost("check-availability")]
         public async Task<IActionResult> CheckToolAvailability([FromBody] AvailabilityCheckDTO dto)
         {
@@ -198,6 +220,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // DELETE: api/reservation/{id}
+        [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
