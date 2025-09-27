@@ -17,6 +17,11 @@ namespace TooliRent.Controllers
         }
 
         // POST: api/auth/register
+        /// <summary>
+        /// Register A New User
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CreateUserDTO dto)
         {
@@ -42,6 +47,11 @@ namespace TooliRent.Controllers
         }
 
         // POST: api/auth/login
+        /// <summary>
+        /// User Login
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LogInDTO dto)
         {
@@ -67,6 +77,11 @@ namespace TooliRent.Controllers
         }
 
         // Get: api/auth/profile/{userId}
+        /// <summary>
+        /// Get User Profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Authorize]     // any logged in user
         [HttpGet("profile/{userId}")]
         public async Task<IActionResult> GetProfile(int userId)
@@ -87,6 +102,12 @@ namespace TooliRent.Controllers
         }
 
         // Put: api/auth/profile/{userId}
+        /// <summary>
+        /// Update User Profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize]     // any logged in user
         [HttpPut("profile/{userId}")]
         public async Task<IActionResult> UpdateProfile(int userId, [FromBody] UpdateUserDTO dto)
@@ -110,6 +131,12 @@ namespace TooliRent.Controllers
         }
 
         // Post: api/auth/change-password/{userId}
+        /// <summary>
+        /// Change User Password
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize]     // any logged in user
         [HttpPost("change-password/{userId}")]
         public async Task<IActionResult> ChangePassword(int userId, [FromBody] ForgotPasswordDTO dto)
@@ -133,6 +160,11 @@ namespace TooliRent.Controllers
         }
 
         // Post: api/auth/forgot-password
+        /// <summary>
+        /// Forgot Password
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize]    // any logged in user
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
@@ -152,6 +184,12 @@ namespace TooliRent.Controllers
         }
 
         // Put: api/auth/admin/update-user-status/{userId}
+        /// <summary>
+        /// Admin Update User Status (Admin Only)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpPut("admin/update-user-status/{userId}")]
         public async Task<IActionResult> UpdateUserStatus(int userId, [FromBody] UpdateUserStatusDTO dto)

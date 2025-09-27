@@ -6,7 +6,7 @@ using TooliRent.Infrastructure.Repositories;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.Services.Service;
 using TooliRent.Mapping;
-
+using System.Reflection;    // for xml remaning
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -86,6 +86,9 @@ namespace TooliRent
                         Array.Empty<string>()
                     }
                 });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                o.IncludeXmlComments(xmlPath);
             });
             // JWT
             var jwt = builder.Configuration.GetSection("Jwt");      // GetSection returnerar allt i "Jwt" i appsettings.json

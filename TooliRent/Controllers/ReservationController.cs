@@ -18,6 +18,10 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/reservation
+        /// <summary>
+        /// Get All Reservations (Admin Only)
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]   // admin only
         [HttpGet]
         public async Task<IActionResult> GetAllReservations()
@@ -34,6 +38,10 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/reservation/active
+        /// <summary>
+        /// Get Active Reservations (Admin Only)
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]   // admin only
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveReservations()
@@ -50,6 +58,11 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/reservation/{id}
+        /// <summary>
+        /// Get Reservation By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReservationById(int id)
@@ -70,6 +83,11 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/reservation/user/{userId}
+        /// <summary>
+        /// Get Reservations By User ID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetUserReservations(int userId)
@@ -86,6 +104,12 @@ namespace TooliRent.Controllers
         }
 
         // POST: api/reservation/user/{userId}
+        /// <summary>
+        /// Create Reservation For User
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpPost("user/{userId}")]
         public async Task<IActionResult> CreateReservation(int userId, [FromBody] CreateReservationDTO dto)
@@ -113,6 +137,12 @@ namespace TooliRent.Controllers
         }
 
         // PUT: api/reservation/{id}
+        /// <summary>
+        /// Update Reservation By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReservation(int id, [FromBody] UpdateReservationDTO dto)
@@ -140,6 +170,12 @@ namespace TooliRent.Controllers
         }
 
         // PATCH: api/reservation/{id}/cancel
+        /// <summary>
+        /// Cancel Reservation By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpPatch("{id}/cancel")]
         public async Task<IActionResult> CancelReservation(int id, [FromBody] ReservationCancelDTO dto)
@@ -167,6 +203,12 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/reservation/{reservationId}/can-cancel/user/{userId}
+        /// <summary>
+        /// Check If User Can Cancel Reservation
+        /// </summary>
+        /// <param name="reservationId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("{reservationId}/can-cancel/user/{userId}")]
         public async Task<IActionResult> CanUserCancel(int reservationId, int userId)
@@ -183,6 +225,12 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/reservation/{reservationId}/can-modify/user/{userId}
+        /// <summary>
+        /// Check If User Can Modify Reservation
+        /// </summary>
+        /// <param name="reservationId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpGet("{reservationId}/can-modify/user/{userId}")]
         public async Task<IActionResult> CanUserModify(int reservationId, int userId)
@@ -199,6 +247,11 @@ namespace TooliRent.Controllers
         }
 
         // POST: api/reservation/check-availability
+        /// <summary>
+        /// Check Tool Availability
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize]     // any authenticated user
         [HttpPost("check-availability")]
         public async Task<IActionResult> CheckToolAvailability([FromBody] AvailabilityCheckDTO dto)
@@ -221,6 +274,11 @@ namespace TooliRent.Controllers
         }
 
         // DELETE: api/reservation/{id}
+        /// <summary>
+        /// Delete Reservation By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin, Member")]    // admin and member only
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)

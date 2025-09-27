@@ -15,7 +15,11 @@ namespace TooliRent.Controllers
         {
             _toolService = toolService;
         }
+
         // GET: api/tool
+        /// <summary>
+        /// Get All Tools
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllTools()
         {
@@ -29,7 +33,11 @@ namespace TooliRent.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         // GET: api/tool/available
+        /// <summary>
+        /// Get Available Tools 
+        /// </summary>
         [HttpGet("available")]
         public async Task<IActionResult> GetAvailableTools()
         {
@@ -45,6 +53,11 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/tool/{id}
+        /// <summary>
+        /// Get Tool by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetToolById(int id)
         {
@@ -64,6 +77,11 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/tool/category/{categoryId}
+        /// <summary>
+        /// Get Tools by Category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         [HttpGet("category/{categoryId}")]
         public async Task<IActionResult> GetToolsByCategory(int categoryId)
         {
@@ -79,7 +97,10 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/tool/select
-
+        /// <summary>
+        /// Get Tools For Select (Id and Name only)
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("select")]
         public async Task<IActionResult> GetToolsForSelect()
         {
@@ -94,6 +115,11 @@ namespace TooliRent.Controllers
             }
         }
         // POST: api/tool 
+        /// <summary>
+        /// Create A New Tool
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]    // admin only
         [HttpPost]
         public async Task<IActionResult> CreateTool([FromBody] CreateToolDto dto)
@@ -113,6 +139,12 @@ namespace TooliRent.Controllers
         }
 
         // PUT: api/tool/{id}
+        /// <summary>
+        /// Update Tool Details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]    // admin only
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTool(int id, [FromBody] UpdateToolDTO dto)
@@ -136,6 +168,12 @@ namespace TooliRent.Controllers
         }
 
         // PATCH: api/tool/{id}/status
+        /// <summary>
+        /// Update Tool Status (Available/Unavailable)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]    // admin only
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdateToolStatus(int id, [FromBody] UpdateToolStatusDTO dto)
@@ -159,6 +197,11 @@ namespace TooliRent.Controllers
         }
 
         // DELETE: api/tool/{id}
+        /// <summary>
+        /// Delete A Tool
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]    // admin only
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTool(int id)
