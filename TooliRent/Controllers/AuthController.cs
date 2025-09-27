@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTOs.AuthDTOs;
 
@@ -15,6 +16,7 @@ namespace TooliRent.Controllers
             _authService = authService;
         }
 
+        // POST: api/auth/register
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] CreateUserDTO dto)
         {
@@ -39,6 +41,7 @@ namespace TooliRent.Controllers
             }
         }
 
+        // POST: api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LogInDTO dto)
         {
@@ -63,6 +66,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // Get: api/auth/profile/{userId}
+        [Authorize]     // any logged in user
         [HttpGet("profile/{userId}")]
         public async Task<IActionResult> GetProfile(int userId)
         {
@@ -81,6 +86,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // Put: api/auth/profile/{userId}
+        [Authorize]     // any logged in user
         [HttpPut("profile/{userId}")]
         public async Task<IActionResult> UpdateProfile(int userId, [FromBody] UpdateUserDTO dto)
         {
@@ -102,6 +109,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // Post: api/auth/change-password/{userId}
+        [Authorize]     // any logged in user
         [HttpPost("change-password/{userId}")]
         public async Task<IActionResult> ChangePassword(int userId, [FromBody] ForgotPasswordDTO dto)
         {
@@ -123,6 +132,8 @@ namespace TooliRent.Controllers
             }
         }
 
+        // Post: api/auth/forgot-password
+        [Authorize]    // any logged in user
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
         {
@@ -140,7 +151,8 @@ namespace TooliRent.Controllers
             }
         }
 
-        // Admin endpoint
+        // Put: api/auth/admin/update-user-status/{userId}
+        [Authorize(Roles = "Admin")]
         [HttpPut("admin/update-user-status/{userId}")]
         public async Task<IActionResult> UpdateUserStatus(int userId, [FromBody] UpdateUserStatusDTO dto)
         {
