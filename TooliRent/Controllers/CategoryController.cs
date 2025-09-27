@@ -3,6 +3,7 @@
 using TooliRent.Core.Interfaces.IService;
 //using TooliRent.Core.Interfaces.Service;
 using TooliRent.DTO_s.CategoryDTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TooliRent.Controllers
 {
@@ -18,6 +19,7 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/categories
+        // all can access
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {
@@ -33,6 +35,7 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/categories/{id}
+        // all can access
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
         {
@@ -52,6 +55,7 @@ namespace TooliRent.Controllers
         }
 
         // POST: api/categories
+        [Authorize(Roles = "Admin")]    // admin only
         [HttpPost]
         public async Task<ActionResult<CategoryDto>> CreateCategory([FromBody] CreateCategoryDTO dto)
         {
@@ -73,6 +77,7 @@ namespace TooliRent.Controllers
         }
 
         // PUT: api/categories/{id}
+        [Authorize(Roles = "Admin")]    // admin only
         [HttpPut("{id}")]
         public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, [FromBody] UpdateCategoryDTO dto)
         {
@@ -95,6 +100,7 @@ namespace TooliRent.Controllers
         }
 
         // DELETE: api/categories/{id}
+        [Authorize(Roles = "Admin")]    // admin only
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
