@@ -461,7 +461,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Email = "Leon.Johanssonsens@example.com",
                             FirstName = "Leon",
                             LastName = "Johansson",
-                            PasswordHash = "$2a$11$9Ew4j1GhTpXqMNXlBJ6zU.2Gq8FYzrLX5K9JzE3X7wMdA8V4qZrOm",
+                            PasswordHash = "Adminpower",
                             Role = "Admin"
                         },
                         new
@@ -470,7 +470,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Email = "DoeTheJohn@example.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$11$9Ew4j1GhTpXqMNXlBJ6zU.2Gq8FYzrLX5K9JzE3X7wMdA8V4qZrOm",
+                            PasswordHash = "password123",
                             Role = "Member"
                         },
                         new
@@ -479,7 +479,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Email = "StarTrekFan@example.com",
                             FirstName = "Petter",
                             LastName = "Boström",
-                            PasswordHash = "$2a$11$9Ew4j1GhTpXqMNXlBJ6zU.2Gq8FYzrLX5K9JzE3X7wMdA8V4qZrOm",
+                            PasswordHash = "Maythe4",
                             Role = "Member"
                         });
                 });
