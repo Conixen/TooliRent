@@ -3,6 +3,7 @@
 using TooliRent.Core.Interfaces.IService;
 //using TooliRent.Core.Interfaces.Service;
 using TooliRent.DTO_s.CategoryDTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TooliRent.Controllers
 {
@@ -18,6 +19,11 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/categories
+        // all can access
+        /// <summary>
+        /// Get all categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {
@@ -33,6 +39,12 @@ namespace TooliRent.Controllers
         }
 
         // GET: api/categories/{id}
+        // all can access
+        /// <summary>
+        /// Get category by ID
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <returns>Category details</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
         {
@@ -52,6 +64,12 @@ namespace TooliRent.Controllers
         }
 
         // POST: api/categories
+        /// <summary>
+        /// Create new category (Admin only)
+        /// </summary>
+        /// <param name="dto">Category creation data</param>
+        /// <returns>Created category</returns>
+        [Authorize(Roles = "Admin")]    // admin only
         [HttpPost]
         public async Task<ActionResult<CategoryDto>> CreateCategory([FromBody] CreateCategoryDTO dto)
         {
@@ -73,6 +91,13 @@ namespace TooliRent.Controllers
         }
 
         // PUT: api/categories/{id}
+        /// <summary>
+        /// Update category (Admin only)
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <param name="dto">Updated category data</param>
+        /// <returns>Updated category</returns>
+        [Authorize(Roles = "Admin")]    // admin only
         [HttpPut("{id}")]
         public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, [FromBody] UpdateCategoryDTO dto)
         {
@@ -95,6 +120,11 @@ namespace TooliRent.Controllers
         }
 
         // DELETE: api/categories/{id}
+        /// <summary>
+        /// Delete category (Admin only)
+        /// </summary>
+        /// <param name="id">Category ID to delete</param>
+        [Authorize(Roles = "Admin")]    // admin only
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {

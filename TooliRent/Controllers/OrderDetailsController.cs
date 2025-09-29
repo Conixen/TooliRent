@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTO_s.OrderDetailsDTOs;
 
@@ -15,6 +16,12 @@ namespace TooliRent.Controllers
             _orderDetailsService = orderDetailsService;
         }
 
+        // GET: api/orderdetails
+        /// <summary>
+        /// Get All Orders (Admin only)
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]  // admin only
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -29,6 +36,12 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/orderdetails/active
+        /// <summary>
+        /// Get Active Orders (Admin only)
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveOrders()
         {
@@ -43,6 +56,12 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/orderdetails/overdue
+        /// <summary>
+        /// Get Overdue Orders (Admin only)
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]    
         [HttpGet("overdue")]
         public async Task<IActionResult> GetOverdueOrders()
         {
@@ -57,6 +76,13 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/orderdetails/{id}
+        /// <summary>
+        /// Get Order by ID (Admin only)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -75,6 +101,13 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/orderdetails/user/{userId}
+        /// <summary>
+        /// Get Orders by User ID (Admin only)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetUserOrders(int userId)
         {
@@ -89,6 +122,14 @@ namespace TooliRent.Controllers
             }
         }
 
+        // POST: api/orderdetails/user/{userId}
+        /// <summary>
+        /// Create Order for User (Admin and Member)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Member")]   // admin and member only
         [HttpPost("user/{userId}")]
         public async Task<IActionResult> CreateOrder(int userId, [FromBody] CreateOrderDTO dto)
         {
@@ -114,6 +155,14 @@ namespace TooliRent.Controllers
             }
         }
 
+        // PUT: api/orderdetails/{id}
+        /// <summary>
+        /// Update Order (Admin and Member)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Member")]   // admin and member only
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderDTO dto)
         {
@@ -139,6 +188,13 @@ namespace TooliRent.Controllers
             }
         }
 
+        // PATCH: api/orderdetails/{id}/checkout
+        /// <summary>
+        /// Check Out Order (Admin and Member)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Member")]   // admin and member only
         [HttpPatch("{id}/checkout")]
         public async Task<IActionResult> CheckOutOrder(int id)
         {
@@ -161,6 +217,13 @@ namespace TooliRent.Controllers
             }
         }
 
+        // PATCH: api/orderdetails/{id}/return
+        /// <summary>
+        /// Return Order (Admin and Member)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Member")]   // admin and member only
         [HttpPatch("{id}/return")]
         public async Task<IActionResult> ReturnOrder(int id)
         {
@@ -183,6 +246,14 @@ namespace TooliRent.Controllers
             }
         }
 
+        // PATCH: api/orderdetails/{id}/cancel
+        /// <summary>
+        /// Cancel Order (Admin and Member)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Member")]   // admin and member only
         [HttpPatch("{id}/cancel")]
         public async Task<IActionResult> CancelOrder(int id, [FromBody] OrderCancelDTO dto)
         {
@@ -208,6 +279,13 @@ namespace TooliRent.Controllers
             }
         }
 
+        // GET: api/orderdetails/{id}/late-fee
+        /// <summary>
+        /// Calculate Late Fee for Order (Admin and Member)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, Member")]   // admin and member only
         [HttpGet("{id}/late-fee")]
         public async Task<IActionResult> CalculateLateFee(int id)
         {
@@ -226,6 +304,13 @@ namespace TooliRent.Controllers
             }
         }
 
+        // DELETE: api/orderdetails/{id}
+        /// <summary>
+        /// Delete Order (Admin only)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {

@@ -8,6 +8,7 @@ using TooliRent.Core.Interfaces.IRepository;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTOs.AuthDTOs;
 using TooliRent.Models;
+using TooliRent.Services.Auth;
 
 namespace TooliRent.Services.Service
 {
@@ -15,11 +16,12 @@ namespace TooliRent.Services.Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        private readonly IJWTTokenService _jwtTokenService;
+        public UserService(IUserRepository userRepository, IMapper mapper, IJWTTokenService jwtTokenService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _jwtTokenService = jwtTokenService;
         }
         public async Task<AuthResponseDTO> RegisterAsync(CreateUserDTO dto)
         {
@@ -50,6 +52,7 @@ namespace TooliRent.Services.Service
         {
             var user = await _userRepository.GetByEmailAsync(dto.Email);
 
+            // Enkel lösenordskontroll (senare BCrypt.Verify)
             if (user == null || user.PasswordHash != dto.Password)
             {
                 return new AuthResponseDTO
@@ -59,10 +62,15 @@ namespace TooliRent.Services.Service
                 };
             }
 
+            // Generera JWT token
+            var token = _jwtTokenService.GenerateToken(user);
+
             return new AuthResponseDTO
             {
                 Success = true,
                 Message = "Login successful",
+                Token = token,
+                Expires = DateTime.UtcNow.AddHours(2),
                 User = _mapper.Map<UserDTO>(user)
             };
         }

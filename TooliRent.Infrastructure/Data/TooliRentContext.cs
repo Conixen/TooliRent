@@ -112,7 +112,7 @@ namespace TooliRent.Infrastructure.Data
                     FirstName = "Leon",
                     LastName = "Johansson",
                     Email = "Leon.Johanssonsens@example.com",
-                    PasswordHash = "$2a$11$9Ew4j1GhTpXqMNXlBJ6zU.2Gq8FYzrLX5K9JzE3X7wMdA8V4qZrOm", // "password123"
+                    PasswordHash = "Adminpower", 
                     Role = "Admin",
 
                 },
@@ -122,7 +122,7 @@ namespace TooliRent.Infrastructure.Data
                     FirstName = "John",
                     LastName = "Doe",
                     Email = "DoeTheJohn@example.com",
-                    PasswordHash = "$2a$11$9Ew4j1GhTpXqMNXlBJ6zU.2Gq8FYzrLX5K9JzE3X7wMdA8V4qZrOm", // "password123"
+                    PasswordHash = "password123", 
                     Role = "Member",
 
                 },
@@ -132,7 +132,7 @@ namespace TooliRent.Infrastructure.Data
                     FirstName = "Petter",
                     LastName = "Boström",
                     Email = "StarTrekFan@example.com",
-                    PasswordHash = "$2a$11$9Ew4j1GhTpXqMNXlBJ6zU.2Gq8FYzrLX5K9JzE3X7wMdA8V4qZrOm", // "password123"
+                    PasswordHash = "Maythe4",
                     Role = "Member",
 
                 }

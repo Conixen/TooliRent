@@ -36,16 +36,16 @@ namespace TooliRent.Services.Auth
                 new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
                 new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                 new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role)
             };
-            if (roles is not null)
-            {
-                claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
-                claims.Add(new Claim(ClaimTypes.Role, user.Role));
-            }
+            //if (roles is not null)
+            //{
+            //    claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+            //    claims.Add(new Claim(ClaimTypes.Role, user.Role));
+            //}
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
             var token = new JwtSecurityToken
                 (
                     issuer: jwt["Issuer"],
