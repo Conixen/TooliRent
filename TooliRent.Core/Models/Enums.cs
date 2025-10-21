@@ -8,27 +8,18 @@
             public const string Member = "Member";
         }
 
-        public static class ToolStatus
-        {
-            public const string Available = "Available";
-            public const string Reserved = "Reserved";
-            public const string CheckedOut = "Not Avaiable";
-        }
-
         public static class ReservationStatus
         {
-            public const string Available = "Available";
-            public const string Reserved = "Reserved";
-            public const string CheckedOut = "Not Avaiable";
+            public const string Active = "Active";
             public const string Cancelled = "Cancelled";
-
         }
+
         public static class OrderStatus
         {
             public const string Pending = "Pending";
-            public const string Completed = "Completed";
+            public const string CheckedOut = "CheckedOut";
+            public const string Returned = "Returned";
             public const string Cancelled = "Cancelled";
-            public const string Late = "Late";
         }
 
 
