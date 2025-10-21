@@ -14,6 +14,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using TooliRent.Services.Auth;
 using Microsoft.Extensions.DependencyInjection;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 namespace TooliRent
 {
@@ -33,14 +35,14 @@ namespace TooliRent
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IToolRepository, ToolRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+            //builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
             builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 
             // Services
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAuthService, UserService>();
             builder.Services.AddScoped<IToolService, ToolService>();
-            builder.Services.AddScoped<IReservationService, ReservationService>();
+            //builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 
@@ -53,10 +55,12 @@ namespace TooliRent
                 cfg.AddProfile<CategoryMappingProfile>();
                 cfg.AddProfile<AuthMappingProfile>();
                 cfg.AddProfile<ToolMappingProfile>();
-                cfg.AddProfile<ReservationMappingProfile>();
                 cfg.AddProfile<OrderMappingProfile>();
+                //cfg.AddProfile<ReservationMappingProfile>();
             });
 
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
