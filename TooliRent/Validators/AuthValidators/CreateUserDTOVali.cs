@@ -7,23 +7,27 @@ namespace TooliRent.Validators.AuthValidators
         public CreateUserDTOVali()
         {
             RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .MaximumLength(50)
-                .WithMessage("First name is required and should not exceed 50 characters.");
+                .NotEmpty().WithMessage("First name is required")
+                .MaximumLength(50).WithMessage("First name cannot exceed 50 characters");
+
             RuleFor(x => x.LastName)
-                .NotEmpty()
-                .MaximumLength(75)
-                .WithMessage("Last name is required and should not exceed 75 characters.");
+                .NotEmpty().WithMessage("Last name is required")
+                .MaximumLength(75).WithMessage("Last name cannot exceed 75 characters");
 
             RuleFor(x => x.Email)
-                .NotEmpty()
-                .EmailAddress()
-                .WithMessage("Invalid email address.");
+                .NotEmpty().WithMessage("Email is required")
+                .EmailAddress().WithMessage("Invalid email format")
+                .MaximumLength(150).WithMessage("Email cannot exceed 150 characters");
 
             RuleFor(x => x.Password)
-                .NotEmpty()
-                .MinimumLength(6)
-                .WithMessage("Password must be at least 6 characters long.");
+                .NotEmpty().WithMessage("Password is required")
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters")
+                .MaximumLength(100).WithMessage("Password cannot exceed 100 characters");
+
+            RuleFor(x => x.Role)
+                .NotEmpty().WithMessage("Role is required")
+                .Must(role => role == "Admin" || role == "Member")
+                .WithMessage("Role must be either Admin or Member");
 
         }
     }

@@ -7,24 +7,17 @@ namespace TooliRent.Validators.AuthValidators
        public UpdateUserDTOVali()
        {
             RuleFor(x => x.FirstName)
-               .NotEmpty()
-               .MaximumLength(50)
-               .WithMessage("First name is required and should not exceed 50 characters.");
+                .NotEmpty().WithMessage("First name is required")
+                .MaximumLength(50).WithMessage("First name cannot exceed 50 characters");
 
             RuleFor(x => x.LastName)
-                    .NotEmpty()
-                    .MaximumLength(75)
-                    .WithMessage("Last name is required and should not exceed 75 characters.");
+                .NotEmpty().WithMessage("Last name is required")
+                .MaximumLength(75).WithMessage("Last name cannot exceed 75 characters");
 
             RuleFor(x => x.Email)
-                    .NotEmpty()
-                    .EmailAddress()
-                    .WithMessage("Invalid email address.");
-
-            RuleFor(x => x.Password)
-                    .NotEmpty()
-                    .MinimumLength(6)
-                    .WithMessage("Password must be at least 6 characters long.");
-       }
+                .NotEmpty().WithMessage("Email is required")
+                .EmailAddress().WithMessage("Invalid email format")
+                .MaximumLength(150).WithMessage("Email cannot exceed 150 characters");
+        }
     }
 }

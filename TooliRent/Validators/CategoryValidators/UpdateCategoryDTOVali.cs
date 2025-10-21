@@ -8,12 +8,12 @@ namespace TooliRent.Validators.CategoryValidators
         public UpdateCategoryDTOVali()
         {
             RuleFor(x => x.Name)
-                .NotEmpty()
-                .MaximumLength(50);
+                .NotEmpty().WithMessage("Category name is required")
+                .MaximumLength(50).WithMessage("Category name cannot exceed 50 characters");
 
             RuleFor(x => x.Description)
-                .NotEmpty()
-                .MaximumLength(255);
+                .NotEmpty().WithMessage("Description is required")
+                .MaximumLength(255).WithMessage("Description cannot exceed 255 characters");
         }
     }
 }

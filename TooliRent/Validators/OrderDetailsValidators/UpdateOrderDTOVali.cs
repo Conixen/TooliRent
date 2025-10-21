@@ -7,15 +7,14 @@ namespace TooliRent.Validators.OrderDetailsValidators
         public UpdateOrderDTOVali()
         {
             RuleFor(x => x.Date2Hire)
-                .NotEmpty();
-
+                .NotEmpty().WithMessage("Hire date is required");
 
             RuleFor(x => x.Date2Return)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Return date is required")
+                .GreaterThan(x => x.Date2Hire).WithMessage("Return date must be after hire date");
 
             RuleFor(x => x.ToolId)
-                .NotEmpty()
-                .GreaterThan(0);
+                .GreaterThan(0).WithMessage("Valid tool must be selected");
         }
     }
 }
