@@ -8,11 +8,6 @@
             public const string Member = "Member";
         }
 
-        public static class ReservationStatus
-        {
-            public const string Active = "Active";
-            public const string Cancelled = "Cancelled";
-        }
 
         public static class OrderStatus
         {
@@ -23,6 +18,11 @@
         }
 
 
+        //public static class ReservationStatus
+        //{
+        //    public const string Active = "Active";
+        //    public const string Cancelled = "Cancelled";
+        //}
     }
 }
 

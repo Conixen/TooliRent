@@ -12,7 +12,7 @@ namespace TooliRent.Models
         public string Role { get; set; } // Admin, Member
 
         // Navigation properties
-        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+        //public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
         public ICollection<OrderDeatils> OrderDetails { get; set; } = new List<OrderDeatils>();
     }
 }

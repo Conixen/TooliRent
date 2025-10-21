@@ -23,6 +23,7 @@ namespace TooliRent.Models
         // Navigation properties
         public User User { get; set; }
         public Tool Tool { get; set; }
-        public Reservation? Reservation { get; set; }
+
+        //public Reservation? Reservation { get; set; }
     }
 }

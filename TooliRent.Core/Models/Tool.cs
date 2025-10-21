@@ -18,8 +18,9 @@ namespace TooliRent.Models
 
         // Navigation properties
         public Category Category { get; set; }
-        public ICollection<ReservationTool> ReservationTools { get; set; } = new List<ReservationTool>();
         public ICollection<OrderDeatils> OrderDetails { get; set; } = new List<OrderDeatils>();
+
+        //public ICollection<ReservationTool> ReservationTools { get; set; } = new List<ReservationTool>();
     }
 
 }
