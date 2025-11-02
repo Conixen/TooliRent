@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using TooliRent.Core.DTOs.OrderDetailsDTOs;
 using TooliRent.Core.Interfaces.IRepository;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTO_s.OrderDetailsDTOs;
@@ -14,12 +15,14 @@ namespace TooliRent.Services.Service
     public class OrderDetailsService : IOrderDetailsService
     {
         private readonly IOrderDetailsRepository _orderRepository;
+        private readonly IToolRepository _toolRepository;
         private readonly IMapper _mapper;
 
-        public OrderDetailsService(IOrderDetailsRepository orderRepository, IMapper mapper)
+        public OrderDetailsService(IOrderDetailsRepository orderRepository, IMapper mapper, IToolRepository toolRepository)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
+            _toolRepository = toolRepository;
         }
 
         public async Task<IEnumerable<OrderDetailsDTO>> GetAllAsync(CancellationToken ct = default)
@@ -37,17 +40,76 @@ namespace TooliRent.Services.Service
             return _mapper.Map<OrderDetailsDTO>(order);
         }
 
-        public async Task<OrderDetailsDTO> CreateAsync(CreateOrderDTO create, CancellationToken ct = default)
+        public async Task<ToolsOrdersResponseDTO> CreateAsync(CreateOrderDTO create, int userId, CancellationToken ct = default)
         {
-            var order = _mapper.Map<OrderDeatils>(create);
+            var createdTools = new List<OrderToolDTO>();
 
-            order.Status = "Pending";   // Default status
-            order.CreatedAt = DateTime.UtcNow;
-            order.UpdatedAt = DateTime.UtcNow;
+            foreach (var toolId in create.ToolIds)
+            {
+                var tool = await _toolRepository.GetByIdAsync(toolId);  // Get tool details
+                if (tool == null)
+                {
+                    throw new KeyNotFoundException($"Tool with ID {toolId} not found");
+                }
 
-            var createdOrder = await _orderRepository.CreateAsync(order);
-            return _mapper.Map<OrderDetailsDTO>(createdOrder);
+                if (!tool.IsAvailable)  // isAvailable
+                {
+                    throw new InvalidOperationException($"Tool '{tool.Name}' is not available");
+                }
+
+                var allOrders = await _orderRepository.GetAllAsync();
+                var conflictingBooking = allOrders.FirstOrDefault(o =>          // Check for date conflicts
+                    o.ToolId == toolId &&
+                    (o.Status == "Pending" || o.Status == "CheckedOut") &&
+                    (
+                        (create.Date2Hire >= o.Date2Hire && create.Date2Hire <= o.Date2Return) ||
+                        (create.Date2Return >= o.Date2Hire && create.Date2Return <= o.Date2Return) ||
+                        (create.Date2Hire <= o.Date2Hire && create.Date2Return >= o.Date2Return)
+                    )
+                );
+
+                if (conflictingBooking != null) // Conflict found
+                {
+                    throw new InvalidOperationException(
+                        $"Tool '{tool.Name}' is already booked from {conflictingBooking.Date2Hire:yyyy-MM-dd} to {conflictingBooking.Date2Return:yyyy-MM-dd}"
+                    );
+                }
+
+                var order = new OrderDeatils    // Create order
+                {
+                    ToolId = toolId,
+                    UserId = userId,
+                    Date2Hire = create.Date2Hire,
+                    Date2Return = create.Date2Return,
+                    Status = "Pending",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+
+                var createdOrder = await _orderRepository.CreateAsync(order);
+                var fullOrder = await _orderRepository.GetByIdAsync(createdOrder.Id);
+
+                createdTools.Add(new OrderToolDTO   // Add to response
+                {
+                    OrderId = fullOrder.Id,
+                    ToolId = fullOrder.ToolId,
+                    ToolName = fullOrder.Tool.Name
+                });
+            }
+
+            var toolCount = createdTools.Count;
+            var toolNames = string.Join(", ", createdTools.Select(t => t.ToolName));
+
+            return new ToolsOrdersResponseDTO   // Return summary
+            {
+                Message = $"{toolCount} tool{(toolCount > 1 ? "s" : "")} booked successfully: {toolNames}",
+                Date2Hire = create.Date2Hire,
+                Date2Return = create.Date2Return,
+                Status = "Pending",
+                Tools = createdTools
+            };
         }
+
 
         public async Task<OrderDetailsDTO?> UpdateAsync(int id, UpdateOrderDTO update, CancellationToken ct = default)
         {

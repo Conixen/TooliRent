@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TooliRent.Core.DTOs.OrderDetailsDTOs;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTO_s.OrderDetailsDTOs;
 
@@ -28,6 +29,7 @@ namespace TooliRent.Controllers
         /// <summary>
         /// Get all orders
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<OrderDetailsDTO>>> GetAllOrders(CancellationToken ct)
@@ -60,17 +62,13 @@ namespace TooliRent.Controllers
             }
         }
 
-        // POST: api/orderdetails
-        /// <summary>
-        /// Create a new order
-        /// </summary>
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<OrderDetailsDTO>> CreateOrder([FromBody] CreateOrderDTO createDTO, CancellationToken ct)
+        public async Task<ActionResult<ToolsOrdersResponseDTO>> CreateOrder([FromBody] CreateOrderDTO createDTO, CancellationToken ct)
         {
-            var validResult = await _createValidator.ValidateAsync(createDTO, ct);
+            var validResult = await _createValidator.ValidateAsync(createDTO, ct);  
             if (!validResult.IsValid)
             {
                 return BadRequest(validResult.Errors);
@@ -78,8 +76,23 @@ namespace TooliRent.Controllers
 
             try
             {
-                var newOrder = await _orderService.CreateAsync(createDTO, ct);
-                return Ok(newOrder);
+                var userIdClaim = User.FindFirst("UserId")?.Value;
+                if (string.IsNullOrEmpty(userIdClaim))
+                {
+                    return Unauthorized("Invalid token");
+                }
+                var userId = int.Parse(userIdClaim);    // get user id from token
+
+                var result = await _orderService.CreateAsync(createDTO, userId, ct);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -141,9 +154,9 @@ namespace TooliRent.Controllers
         }
         // POST: api/orderdetails/{id}/checkout
         /// <summary>
-        /// Check out an order (mark as picked up) - Admin only
+        /// Check out an order 
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPost("{id}/checkout")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -170,9 +183,9 @@ namespace TooliRent.Controllers
 
         // POST: api/orderdetails/{id}/return
         /// <summary>
-        /// Return an order (mark as returned) - Admin only
+        /// Return an order (mark as returned) 
         /// </summary>
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPost("{id}/return")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

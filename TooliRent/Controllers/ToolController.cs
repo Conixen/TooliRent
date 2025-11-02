@@ -162,25 +162,6 @@ namespace TooliRent.Controllers
             return Ok(tools);
         }
 
-
-        //// GET: api/tool/select
-        ///// <summary>
-        ///// Get Tools For Dropdown
-        ///// </summary>
-        //[HttpGet("select")]
-        //public async Task<IActionResult> GetToolsForDropdown()
-        //{
-        //    try
-        //    {
-        //        var tools = await _toolService.GetForDropdownAsync();
-        //        return Ok(tools);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
-
         //// PATCH: api/tool/{id}/status
         ///// <summary>
         ///// Update Tool Status (Admin Only)

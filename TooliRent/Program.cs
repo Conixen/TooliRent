@@ -44,6 +44,7 @@ namespace TooliRent
             builder.Services.AddScoped<IToolService, ToolService>();
             //builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+            builder.Services.AddScoped<IStatisticsService, StatisticsService>();
             builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 
             // AutoMapper

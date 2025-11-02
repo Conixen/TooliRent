@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TooliRent.Core.DTOs.OrderDetailsDTOs;
 using TooliRent.DTO_s.OrderDetailsDTOs;
 using TooliRent.Models;
 
@@ -13,7 +14,7 @@ namespace TooliRent.Core.Interfaces.IService
         // Basic CRUD
         Task<IEnumerable<OrderDetailsDTO>> GetAllAsync(CancellationToken ct = default);
         Task<OrderDetailsDTO?> GetByIdAsync(int id, CancellationToken ct = default);
-        Task<OrderDetailsDTO> CreateAsync(CreateOrderDTO create, CancellationToken ct = default);
+        Task<ToolsOrdersResponseDTO> CreateAsync(CreateOrderDTO create, int userId, CancellationToken ct = default);
         Task<OrderDetailsDTO?> UpdateAsync(int id, UpdateOrderDTO update, CancellationToken ct = default);
         Task DeleteAsync(int id, CancellationToken ct = default);
 
