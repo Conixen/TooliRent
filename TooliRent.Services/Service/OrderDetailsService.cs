@@ -71,5 +71,63 @@ namespace TooliRent.Services.Service
 
             await _orderRepository.DeleteAsync(id);
         }
+
+
+        public async Task<OrderDetailsDTO?> CheckOutAsync(int orderId, CancellationToken ct = default)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null)
+                return null;
+
+            if (order.Status != "Pending")
+                throw new InvalidOperationException("Only pending orders can be checked out");
+
+            order.Status = "CheckedOut";
+            order.CheckedOutAt = DateTime.UtcNow;
+            order.UpdatedAt = DateTime.UtcNow;
+
+            await _orderRepository.UpdateAsync(order);
+            return _mapper.Map<OrderDetailsDTO>(order);
+        }
+
+        public async Task<OrderDetailsDTO?> ReturnAsync(int orderId, CancellationToken ct = default)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null)
+                return null;
+
+            if (order.Status != "CheckedOut")
+                throw new InvalidOperationException("Only checked out orders can be returned");
+
+            order.Status = "Returned";
+            order.ReturnedAt = DateTime.UtcNow;
+            order.UpdatedAt = DateTime.UtcNow;
+
+            // Beräkna förseningsavgift om för sent
+            if (DateTime.UtcNow > order.Date2Return)
+            {
+                var daysLate = (DateTime.UtcNow - order.Date2Return).Days;
+                order.LateFee = daysLate * 50m; // 50kr per dag i förseningsavgift
+            }
+
+            await _orderRepository.UpdateAsync(order);
+            return _mapper.Map<OrderDetailsDTO>(order);
+        }
+
+        public async Task<OrderDetailsDTO?> CancelAsync(int orderId, CancellationToken ct = default)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null)
+                return null;
+
+            if (order.Status != "Pending")
+                throw new InvalidOperationException("Only pending orders can be cancelled");
+
+            order.Status = "Cancelled";
+            order.UpdatedAt = DateTime.UtcNow;
+
+            await _orderRepository.UpdateAsync(order);
+            return _mapper.Map<OrderDetailsDTO>(order);
+        }
     }
 }

@@ -139,7 +139,92 @@ namespace TooliRent.Controllers
                 return NotFound(ex.Message);
             }
         }
+        // POST: api/orderdetails/{id}/checkout
+        /// <summary>
+        /// Check out an order (mark as picked up) - Admin only
+        /// </summary>
+        [Authorize(Roles = "Admin")]
+        [HttpPost("{id}/checkout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<OrderDetailsDTO>> CheckOut(int id, CancellationToken ct)
+        {
+            try
+            {
+                var order = await _orderService.CheckOutAsync(id, ct);
+                if (order == null)
+                    return NotFound($"Order with ID {id} not found");
 
+                return Ok(order);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        // POST: api/orderdetails/{id}/return
+        /// <summary>
+        /// Return an order (mark as returned) - Admin only
+        /// </summary>
+        [Authorize(Roles = "Admin")]
+        [HttpPost("{id}/return")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<OrderDetailsDTO>> Return(int id, CancellationToken ct)
+        {
+            try
+            {
+                var order = await _orderService.ReturnAsync(id, ct);
+                if (order == null)
+                    return NotFound($"Order with ID {id} not found");
+
+                return Ok(order);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        // POST: api/orderdetails/{id}/cancel
+        /// <summary>
+        /// Cancel an order - User can cancel their own orders
+        /// </summary>
+        [Authorize]
+        [HttpPost("{id}/cancel")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<OrderDetailsDTO>> Cancel(int id, CancellationToken ct)
+        {
+            try
+            {
+                var order = await _orderService.CancelAsync(id, ct);
+                if (order == null)
+                    return NotFound($"Order with ID {id} not found");
+
+                return Ok(order);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         // GET: api/orderdetails/overdue
         /// <summary>
@@ -181,39 +266,7 @@ namespace TooliRent.Controllers
         //        return StatusCode(500, $"Internal server error: {ex.Message}");
         //    }
         //}
-
-
-        //// PATCH: api/orderdetails/{id}/cancel
-        ///// <summary>
-        ///// Cancel Order (Admin and Member)
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <param name="dto"></param>
-        ///// <returns></returns>
-        //[Authorize(Roles = "Admin, Member")]   // admin and member only
-        //[HttpPatch("{id}/cancel")]
-        //public async Task<IActionResult> CancelOrder(int id, [FromBody] OrderCancelDTO dto)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    try
-        //    {
-        //        await _orderDetailsService.CancelAsync(id, dto);
-        //        return Ok("Order cancelled successfully");
-        //    }
-        //    catch (ArgumentException ex)
-        //    {
-        //        return NotFound(ex.Message);
-        //    }
-        //    catch (InvalidOperationException ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
+        //}
         //}
 
         //// GET: api/orderdetails/{id}/late-fee
@@ -240,39 +293,6 @@ namespace TooliRent.Controllers
         //        return StatusCode(500, $"Internal server error: {ex.Message}");
         //    }
         //}
-        //// POST: api/orderdetails/user/{userId}
-        ///// <summary>
-        ///// Create Order for User (Admin and Member)
-        ///// </summary>
-        ///// <param name="userId"></param>
-        ///// <param name="dto"></param>
-        ///// <returns></returns>
-        //[Authorize(Roles = "Admin, Member")]   // admin and member only
-        //[HttpPost("user/{userId}")]
-        //public async Task<IActionResult> CreateOrder(int userId, [FromBody] CreateOrderDTO dto)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    try
-        //    {
-        //        var createdOrder = await _orderDetailsService.CreateAsync(dto, userId);
-        //        return CreatedAtAction(nameof(GetOrderById), new { id = createdOrder.Id }, createdOrder);
-        //    }
-        //    catch (ArgumentException ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //    catch (InvalidOperationException ex)
-        //    {
-        //        return Conflict(ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
-
 
     }
 }

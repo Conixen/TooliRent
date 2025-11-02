@@ -17,10 +17,10 @@ namespace TooliRent.Core.Interfaces.IService
         Task<OrderDetailsDTO?> UpdateAsync(int id, UpdateOrderDTO update, CancellationToken ct = default);
         Task DeleteAsync(int id, CancellationToken ct = default);
 
-        // Order lifecycle
-        //Task CheckOutAsync(int id);
-        //Task ReturnAsync(int id);
-        //Task CancelAsync(int id, OrderCancelDTO dto);
+
+        Task<OrderDetailsDTO?> CheckOutAsync(int orderId, CancellationToken ct = default);
+        Task<OrderDetailsDTO?> ReturnAsync(int orderId, CancellationToken ct = default);
+        Task<OrderDetailsDTO?> CancelAsync(int orderId, CancellationToken ct = default);
 
         //// Business logic
         //Task<List<OrderSummaryDTO>> GetActiveOrdersAsync();
