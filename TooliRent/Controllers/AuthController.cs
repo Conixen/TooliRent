@@ -176,7 +176,31 @@ namespace TooliRent.Controllers
             }
         }
 
-
+        // PUT: api/auth/users/{id}/status
+        /// <summary>
+        /// Update user status - activate or deactivate (Admin only)
+        /// </summary>
+        [Authorize(Roles = "Admin")]
+        [HttpPut("users/{id}/status")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateUserStatus(int id, [FromBody] UpdateUserStatusDTO dto, CancellationToken ct)
+        {
+            try
+            {
+                await _authService.UpdateUserStatusAsync(id, dto.IsActive, ct);
+                var statusText = dto.IsActive ? "activated" : "deactivated";
+                return Ok(new { message = $"User {statusText} successfully" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         //// Post: api/auth/change-password/{userId}
         ///// <summary>
@@ -230,33 +254,5 @@ namespace TooliRent.Controllers
         //    }
         //}
 
-        //// Put: api/auth/admin/update-user-status/{userId}
-        ///// <summary>
-        ///// Admin Update User Status (Admin Only)
-        ///// </summary>
-        ///// <param name="userId"></param>
-        ///// <param name="dto"></param>
-        ///// <returns></returns>
-        //[Authorize(Roles = "Admin")]
-        //[HttpPut("admin/update-user-status/{userId}")]
-        //public async Task<IActionResult> UpdateUserStatus(int userId, [FromBody] UpdateUserStatusDTO dto)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    try
-        //    {
-        //        await _authService.UpdateUserStatusAsync(userId, dto);
-        //        return Ok("User status updated successfully");
-        //    }
-        //    catch (ArgumentException ex)
-        //    {
-        //        return NotFound(ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message}");
-        //    }
-        //}
     }
 }

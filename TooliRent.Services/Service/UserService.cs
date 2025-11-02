@@ -109,5 +109,14 @@ namespace TooliRent.Services.Service
                 User = _mapper.Map<UserDTO>(user)
             };
         }
+        public async Task UpdateUserStatusAsync(int userId, bool isActive, CancellationToken ct = default)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {userId} not found.");
+
+            user.IsActive = isActive;
+            await _userRepository.UpdateAsync(user);
+        }
     }
 }

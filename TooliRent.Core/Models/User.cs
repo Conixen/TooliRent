@@ -11,6 +11,7 @@ namespace TooliRent.Models
         public string PasswordHash { get; set; }
         public string Role { get; set; } // Admin, Member
 
+        public bool IsActive { get; set; } = true;
         // Navigation properties
         //public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
         public ICollection<OrderDeatils> OrderDetails { get; set; } = new List<OrderDeatils>();

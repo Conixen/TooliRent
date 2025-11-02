@@ -20,8 +20,7 @@ namespace TooliRent.Core.Interfaces.IService
         Task<UserDTO?> UpdateUserAsync(int userId, UpdateUserDTO dto, CancellationToken ct = default);
         Task DeleteUserAsync(int userId, CancellationToken ct = default);
 
+        Task UpdateUserStatusAsync(int userId, bool isActive, CancellationToken ct = default);  
 
-        // Admin operations (om du har UpdateUserStatusDto)
-        //Task UpdateUserStatusAsync(int userId, UpdateUserStatusDTO dto);
     }
 }

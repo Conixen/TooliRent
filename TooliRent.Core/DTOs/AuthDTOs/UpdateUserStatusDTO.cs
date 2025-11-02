@@ -6,7 +6,7 @@ namespace TooliRent.DTOs.AuthDTOs
     {
         [Required]
         [MaxLength(20)]
-        public string Role { get; set; } = string.Empty; // Admin, Member
+        public bool IsActive { get; set; }
         
     }
 }
