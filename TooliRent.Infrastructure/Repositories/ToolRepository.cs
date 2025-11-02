@@ -19,6 +19,13 @@ namespace TooliRent.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<Tool>> GetAllAsync()
+        {
+            return await _context.Tools
+                .Include(t => t.Category)
+                .ToListAsync();
+        }
+
         public async Task<Tool?> GetByIdAsync(int id)
         {
             return await _context.Tools
@@ -26,32 +33,9 @@ namespace TooliRent.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<List<Tool>> GetAllAsync()
+        public async Task<Tool> CreateAsync(Tool tool)
         {
-            return await _context.Tools
-                .Include(t => t.Category)
-                .ToListAsync();
-        }
-
-        public async Task<List<Tool>> GetAvailableAsync()
-        {
-            return await _context.Tools
-                .Include(t => t.Category)
-                .Where(t => t.IsAvailable)
-                .ToListAsync();
-        }
-
-        public async Task<List<Tool>> GetByCategoryAsync(int categoryId)
-        {
-            return await _context.Tools
-                .Include(t => t.Category)
-                .Where(t => t.CategoryId == categoryId)
-                .ToListAsync();
-        }
-
-        public async Task<Tool> AddAsync(Tool tool)
-        {
-            _context.Tools.Add(tool);
+            await _context.Tools.AddAsync(tool);
             await _context.SaveChangesAsync();
             return tool;
         }
@@ -70,6 +54,22 @@ namespace TooliRent.Infrastructure.Repositories
                 _context.Tools.Remove(tool);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<Tool>> GetAvailableAsync()
+        {
+            return await _context.Tools
+                .Include(t => t.Category)
+                .Where(t => t.IsAvailable)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Tool>> GetByCategoryAsync(int categoryId)
+        {
+            return await _context.Tools
+                .Include(t => t.Category)
+                .Where(t => t.CategoryId == categoryId)
+                .ToListAsync();
         }
     }
 }

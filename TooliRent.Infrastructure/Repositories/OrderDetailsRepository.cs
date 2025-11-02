@@ -18,76 +18,41 @@ namespace TooliRent.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<OrderDeatils>> GetAllAsync()
+        {
+            return await _context.OrderDeatils
+                .Include(o => o.User)
+                .Include(o => o.Tool)
+                .ToListAsync();
+        }
+
         public async Task<OrderDeatils?> GetByIdAsync(int id)
         {
             return await _context.OrderDeatils
                 .Include(o => o.User)
                 .Include(o => o.Tool)
-                    .ThenInclude(t => t.Category)
-                .Include(o => o.Reservation)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<List<OrderDeatils>> GetAllAsync()
+        public async Task<OrderDeatils> CreateAsync(OrderDeatils order)
         {
-            return await _context.OrderDeatils
-                .Include(o => o.User)
-                .Include(o => o.Tool)
-                    .ThenInclude(t => t.Category)
-                .Include(o => o.Reservation)
-                .ToListAsync();
-        }
-
-        public async Task<List<OrderDeatils>> GetByUserIdAsync(int userId)
-        {
-            return await _context.OrderDeatils
-                .Include(o => o.User)
-                .Include(o => o.Tool)
-                    .ThenInclude(t => t.Category)
-                .Include(o => o.Reservation)
-                .Where(o => o.UserId == userId)
-                .ToListAsync();
-        }
-
-        public async Task<List<OrderDeatils>> GetActiveOrdersAsync()
-        {
-            return await _context.OrderDeatils
-                .Include(o => o.User)
-                .Include(o => o.Tool)
-                .Include(o => o.Reservation)
-                .Where(o => o.Status == "CheckedOut" || o.Status == "Pending")
-                .ToListAsync();
-        }
-
-        public async Task<List<OrderDeatils>> GetOverdueOrdersAsync()
-        {
-            return await _context.OrderDeatils
-                .Include(o => o.User)
-                .Include(o => o.Tool)
-                .Include(o => o.Reservation)
-                .Where(o => o.Date2Return < DateTime.UtcNow && o.Status != "Returned")
-                .ToListAsync();
-        }
-
-        public async Task<OrderDeatils> AddAsync(OrderDeatils orderDeatils)
-        {
-            _context.OrderDeatils.Add(orderDeatils);
+            await _context.OrderDeatils.AddAsync(order);
             await _context.SaveChangesAsync();
-            return orderDeatils;
+            return order;
         }
 
-        public async Task UpdateAsync(OrderDeatils orderDeatils)
+        public async Task UpdateAsync(OrderDeatils order)
         {
-            _context.OrderDeatils.Update(orderDeatils);
+            _context.OrderDeatils.Update(order);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var orderDeatils = await _context.OrderDeatils.FindAsync(id);
-            if (orderDeatils != null)
+            var order = await _context.OrderDeatils.FindAsync(id);
+            if (order != null)
             {
-                _context.OrderDeatils.Remove(orderDeatils);
+                _context.OrderDeatils.Remove(order);
                 await _context.SaveChangesAsync();
             }
         }

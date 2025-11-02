@@ -18,25 +18,30 @@ namespace TooliRent.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<Category> GetByIdAsync(int id)
-        {
-            return await _context.Categorys.FindAsync(id);
-        }
-        public async Task<List<Category>> GetAllAsync()
+
+        public async Task<IEnumerable<Category>> GetAllAsync()
         {
             return await _context.Categorys.ToListAsync();
         }
-        public async Task<Category> AddAsync(Category category)
+
+        public async Task<Category?> GetByIdAsync(int id)
         {
-            _context.Categorys.Add(category);
+            return await _context.Categorys.FindAsync(id);
+        }
+
+        public async Task<Category> CreateAsync(Category category)
+        {
+            await _context.Categorys.AddAsync(category);
             await _context.SaveChangesAsync();
             return category;
         }
+
         public async Task UpdateAsync(Category category)
         {
             _context.Categorys.Update(category);
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteAsync(int id)
         {
             var category = await _context.Categorys.FindAsync(id);
