@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTO_s.ToolsDTOs;
@@ -10,215 +11,201 @@ namespace TooliRent.Controllers
     public class ToolController : ControllerBase
     {
         private readonly IToolService _toolService;
+        private readonly IValidator<CreateToolDTO> _createVali;
+        private readonly IValidator<UpdateToolDTO> _updateVali;
 
-        public ToolController(IToolService toolService)
+        public ToolController(IToolService toolService, IValidator<UpdateToolDTO> updateToolVali, IValidator<CreateToolDTO> createToolVali)
         {
             _toolService = toolService;
+            _updateVali = updateToolVali;
+            _createVali = createToolVali;
         }
 
-        // GET: api/tool
+        // GET: api/tools
         /// <summary>
-        /// Get All Tools
+        /// Get all tools
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllTools()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ToolDTO>>> GetAllTools(CancellationToken ct)
         {
-            try
-            {
-                var tools = await _toolService.GetAllAsync();
-                return Ok(tools);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var tools = await _toolService.GetAllAsync(ct);
+            return Ok(tools);
         }
 
-        // GET: api/tool/available
+        // GET: api/tools/{id}
         /// <summary>
-        /// Get Available Tools 
+        /// Get tool by ID
         /// </summary>
-        [HttpGet("available")]
-        public async Task<IActionResult> GetAvailableTools()
-        {
-            try
-            {
-                var tools = await _toolService.GetAvailableAsync();
-                return Ok(tools);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        // GET: api/tool/{id}
-        /// <summary>
-        /// Get Tool by ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetToolById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ToolDTO>> GetById(int id, CancellationToken ct)
         {
             try
             {
-                var tool = await _toolService.GetByIdAsync(id);
-
+                var tool = await _toolService.GetByIdAsync(id, ct);
                 if (tool == null)
-                    return NotFound($"Tool with id {id} not found");
-
+                {
+                    return NotFound($"Tool with ID {id} not found");
+                }
                 return Ok(tool);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(ex.Message);
             }
         }
 
-        // GET: api/tool/category/{categoryId}
+        // POST: api/tools
         /// <summary>
-        /// Get Tools by Category
+        /// Create a new tool (Admin only)
         /// </summary>
-        /// <param name="categoryId"></param>
-        /// <returns></returns>
-        [HttpGet("category/{categoryId}")]
-        public async Task<IActionResult> GetToolsByCategory(int categoryId)
-        {
-            try
-            {
-                var tools = await _toolService.GetByCategoryAsync(categoryId);
-                return Ok(tools);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        // GET: api/tool/select
-        /// <summary>
-        /// Get Tools For Select (Id and Name only)
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("select")]
-        public async Task<IActionResult> GetToolsForSelect()
-        {
-            try
-            {
-                var tools = await _toolService.GetForSelectAsync();
-                return Ok(tools);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-        // POST: api/tool 
-        /// <summary>
-        /// Create A New Tool
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [Authorize(Roles = "Admin")]    // admin only
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateTool([FromBody] CreateToolDto dto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ToolDTO>> CreateTool([FromBody] CreateToolDTO createDTO, CancellationToken ct)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var validResult = await _createVali.ValidateAsync(createDTO, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
 
             try
             {
-                var createdTool = await _toolService.CreateAsync(dto);
-                return CreatedAtAction(nameof(GetToolById), new { id = createdTool.Id }, createdTool);
+                var newTool = await _toolService.CreateAsync(createDTO, ct);
+                return Ok(newTool);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, ex.Message);
             }
         }
 
-        // PUT: api/tool/{id}
+        // PUT: api/tools/{id}
         /// <summary>
-        /// Update Tool Details
+        /// Update a tool (Admin only)
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [Authorize(Roles = "Admin")]    // admin only
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTool(int id, [FromBody] UpdateToolDTO dto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ToolDTO>> UpdateTool(int id, [FromBody] UpdateToolDTO updateDTO, CancellationToken ct)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var validResult = await _updateVali.ValidateAsync(updateDTO, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
 
             try
             {
-                await _toolService.UpdateAsync(id, dto);
-                return Ok("Tool updated successfully");
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        // PATCH: api/tool/{id}/status
-        /// <summary>
-        /// Update Tool Status (Available/Unavailable)
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [Authorize(Roles = "Admin")]    // admin only
-        [HttpPatch("{id}/status")]
-        public async Task<IActionResult> UpdateToolStatus(int id, [FromBody] UpdateToolStatusDTO dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                await _toolService.UpdateStatusAsync(id, dto);
-                return Ok("Tool status updated successfully");
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
+                var updatedTool = await _toolService.UpdateAsync(id, updateDTO, ct);
+                if (updatedTool == null)
+                {
+                    return NotFound($"Tool with ID {id} not found");
+                }
+                return Ok(updatedTool);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(ex.Message);
             }
         }
 
-        // DELETE: api/tool/{id}
+        // DELETE: api/tools/{id}
         /// <summary>
-        /// Delete A Tool
+        /// Delete a tool (Admin only)
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Authorize(Roles = "Admin")]    // admin only
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTool(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteTool(int id, CancellationToken ct)
         {
             try
             {
-                await _toolService.DeleteAsync(id);
-                return Ok("Tool deleted successfully");
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
+                await _toolService.DeleteAsync(id, ct);
+                return NoContent();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(ex.Message);
             }
         }
+        //--------------------------------------------------------------
+
+        // GET: api/tools/available
+        /// <summary>
+        /// Get all available tools
+        /// </summary>
+        [HttpGet("available")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ToolDTO>>> GetAvailable(CancellationToken ct)
+        {
+            var tools = await _toolService.GetAvailableAsync(ct);
+            return Ok(tools);
+        }
+
+        // GET: api/tools/category/{categoryId}
+        /// <summary>
+        /// Get tools by category
+        /// </summary>
+        [HttpGet("category/{categoryId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ToolDTO>>> GetByCategory(int categoryId, CancellationToken ct)
+        {
+            var tools = await _toolService.GetByCategoryAsync(categoryId, ct);
+            return Ok(tools);
+        }
+
+
+        //// GET: api/tool/select
+        ///// <summary>
+        ///// Get Tools For Dropdown
+        ///// </summary>
+        //[HttpGet("select")]
+        //public async Task<IActionResult> GetToolsForDropdown()
+        //{
+        //    try
+        //    {
+        //        var tools = await _toolService.GetForDropdownAsync();
+        //        return Ok(tools);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
+
+        //// PATCH: api/tool/{id}/status
+        ///// <summary>
+        ///// Update Tool Status (Admin Only)
+        ///// </summary>
+        //[Authorize(Roles = "Admin")]
+        //[HttpPatch("{id}/status")]
+        //public async Task<IActionResult> UpdateToolStatus(int id, [FromBody] UpdateToolStatusDTO dto)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    try
+        //    {
+        //        await _toolService.UpdateStatusAsync(id, dto);
+        //        return Ok("Tool status updated successfully");
+        //    }
+        //    catch (ArgumentException ex)
+        //    {
+        //        return NotFound(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
+
     }
 }

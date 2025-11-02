@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-//using TooliRent.Core.DTOs.CategoryDTOs;
 using TooliRent.Core.Interfaces.IService;
-//using TooliRent.Core.Interfaces.Service;
 using TooliRent.DTO_s.CategoryDTOs;
 using Microsoft.AspNetCore.Authorization;
+using FluentValidation;
 
 namespace TooliRent.Controllers
 {
@@ -12,10 +11,13 @@ namespace TooliRent.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-
-        public CategoriesController(ICategoryService categoryService)
+        private readonly IValidator<CreateCategoryDTO> _createValidator;    // actuall validator
+        private readonly IValidator<UpdateCategoryDTO> _updateValidator;
+        public CategoriesController(ICategoryService categoryService, IValidator<CreateCategoryDTO> createValidator, IValidator<UpdateCategoryDTO> updateValidator)
         {
             _categoryService = categoryService;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
         }
 
         // GET: api/categories
@@ -23,19 +25,13 @@ namespace TooliRent.Controllers
         /// <summary>
         /// Get all categories
         /// </summary>
+        /// <param name="ct"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAllCategories(CancellationToken ct)
         {
-            try
-            {
-                var categories = await _categoryService.GetAllCategoriesAsync();
-                return Ok(categories);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var categories = await _categoryService.GetAllAsync(ct);
+            return Ok(categories);
         }
 
         // GET: api/categories/{id}
@@ -44,22 +40,25 @@ namespace TooliRent.Controllers
         /// Get category by ID
         /// </summary>
         /// <param name="id">Category ID</param>
+        /// <param name="ct"></param>
         /// <returns>Category details</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
+        public async Task<ActionResult<CategoryDTO>> GetById(int id, CancellationToken ct)
         {
             try
             {
-                var category = await _categoryService.GetCategoryByIdAsync(id);
+                var category = await _categoryService.GetByIdAsync(id, ct);
+                if (category == null)
+                {
+                    return NotFound($"Category with ID {id} not found");
+                }
                 return Ok(category);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound($"Category with ID {id} not found");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(ex.Message);
             }
         }
 
@@ -67,55 +66,70 @@ namespace TooliRent.Controllers
         /// <summary>
         /// Create new category (Admin only)
         /// </summary>
-        /// <param name="dto">Category creation data</param>
+        /// <param name="createDTO"></param>
+        /// <param name="ct"></param>
         /// <returns>Created category</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = "Admin")]    // admin only
         [HttpPost]
-        public async Task<ActionResult<CategoryDto>> CreateCategory([FromBody] CreateCategoryDTO dto)
+        public async Task<ActionResult<CategoryDTO>> CreateCategory([FromBody] CreateCategoryDTO createDTO, CancellationToken ct)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var validResult = await _createValidator.ValidateAsync(createDTO, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
 
             try
             {
-                var createdCategory = await _categoryService.CreateCategoryAsync(dto);
+                var newCategory = await _categoryService.CreateAsync(createDTO, ct);
                 return CreatedAtAction(
-                    nameof(GetCategoryById),
-                    new { id = createdCategory.Id },
-                    createdCategory);
+                    nameof(GetById),
+                    new { id = newCategory.Id },
+                    newCategory);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, ex.Message);
             }
         }
+
 
         // PUT: api/categories/{id}
         /// <summary>
         /// Update category (Admin only)
         /// </summary>
-        /// <param name="id">Category ID</param>
-        /// <param name="dto">Updated category data</param>
+        /// <param name="id"></param>
+        /// <param name="updateDTO"></param>
+        /// <param name="ct"></param>
         /// <returns>Updated category</returns>
         [Authorize(Roles = "Admin")]    // admin only
         [HttpPut("{id}")]
-        public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, [FromBody] UpdateCategoryDTO dto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CategoryDTO>> UpdateCategory(int id, [FromBody] UpdateCategoryDTO updateDTO, CancellationToken ct)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var validResult = await _updateValidator.ValidateAsync(updateDTO, ct);
+            if (!validResult.IsValid)
+            {
+                return BadRequest(validResult.Errors);
+            }
 
             try
             {
-                var updatedCategory = await _categoryService.UpdateCategoryAsync(id, dto);
+                var updatedCategory = await _categoryService.UpdateAsync(id, updateDTO, ct);
+                if (updatedCategory == null)
+                {
+                    return NotFound($"Category with ID {id} not found");
+                }
                 return Ok(updatedCategory);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound($"Category with ID {id} not found");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(ex.Message);
             }
         }
 
@@ -123,23 +137,23 @@ namespace TooliRent.Controllers
         /// <summary>
         /// Delete category (Admin only)
         /// </summary>
-        /// <param name="id">Category ID to delete</param>
+        /// <param name="id">Category ID to delete
+        /// <param name="ct"></param></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]    // admin only
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategory(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteCategory(int id, CancellationToken ct)
         {
             try
             {
-                await _categoryService.DeleteCategoryAsync(id);
+                await _categoryService.DeleteAsync(id, ct);
                 return NoContent();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound($"Category with ID {id} not found");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return NotFound(ex.Message);
             }
         }
     }
