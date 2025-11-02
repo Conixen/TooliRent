@@ -14,7 +14,8 @@ namespace TooliRent.Validators.OrderDetailsValidators
                 .GreaterThan(x => x.Date2Hire).WithMessage("Return date must be after hire date");
 
             RuleFor(x => x.ToolId)
-                .GreaterThan(0).WithMessage("Valid tool must be selected");
+                .GreaterThan(0).WithMessage("Valid tool must be selected")
+                .NotEmpty().WithMessage("Must choose a tool number");
         }
     }
 }

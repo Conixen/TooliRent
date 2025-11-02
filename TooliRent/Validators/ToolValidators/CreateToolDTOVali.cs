@@ -3,7 +3,7 @@ using TooliRent.DTO_s.ToolsDTOs;
 
 namespace TooliRent.Validators.ToolValidators
 {
-    public class CreateToolDTOVali : AbstractValidator<CreateToolDto>
+    public class CreateToolDTOVali : AbstractValidator<CreateToolDTO>
     {
         public CreateToolDTOVali()
         {
@@ -32,7 +32,7 @@ namespace TooliRent.Validators.ToolValidators
 
             RuleFor(x => x.SerialNumber)
                 .MaximumLength(100).WithMessage("Serial number cannot exceed 100 characters")
-                .When(x => !string.IsNullOrEmpty(x.SerialNumber));
+                .When(x => !string.IsNullOrEmpty(x.SerialNumber));  // Serial number is optional
         }
     }
 }

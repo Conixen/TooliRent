@@ -10,6 +10,7 @@ namespace TooliRent.Validators.CategoryValidators
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Category name is required")
+                .MinimumLength(2).WithMessage("Category name must be at least 2 characters")
                 .MaximumLength(50).WithMessage("Category name cannot exceed 50 characters");
 
             RuleFor(x => x.Description)

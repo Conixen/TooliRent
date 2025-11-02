@@ -32,7 +32,7 @@ namespace TooliRent.Validators.ToolValidators
 
             RuleFor(x => x.SerialNumber)
                 .MaximumLength(100).WithMessage("Serial number cannot exceed 100 characters")
-                .When(x => !string.IsNullOrEmpty(x.SerialNumber));
+                .When(x => !string.IsNullOrEmpty(x.SerialNumber));  // optional
         }
     }
 }
