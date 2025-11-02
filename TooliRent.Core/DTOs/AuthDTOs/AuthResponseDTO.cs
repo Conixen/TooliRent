@@ -2,12 +2,9 @@
 {
     public class AuthResponseDTO
     {
-        public bool GreatSucessVeryNice { get; set; } = true; 
-        public string Token { get; set; } = string.Empty;
-        public DateTime Expires { get; set; }
-        public UserDTO? User { get; set; } = null!;
-        public bool Success { get; set; }
-        public string Message { get; set; } = string.Empty;
-
+        public bool GreatSucessVeryNice { get; set; } = true;
+        public string Message { get; set; }
+        public string? Token { get; set; }
+        public UserDTO? User { get; set; }
     }
 }
