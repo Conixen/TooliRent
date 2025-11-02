@@ -19,8 +19,4 @@
     <ProjectReference Include="..\TooliRent.Core\TooliRent.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

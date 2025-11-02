@@ -17,9 +17,9 @@ namespace TooliRent.Infrastructure.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Tool> Tools { get; set; }
         public DbSet<Category> Categorys { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<OrderDeatils> OrderDeatils { get; set; }
-        public DbSet<ReservationTool> ReservationTools { get; set; }
+        //public DbSet<Reservation> Reservations { get; set; }
+        //public DbSet<ReservationTool> ReservationTools { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,59 +31,26 @@ namespace TooliRent.Infrastructure.Data
         }
         private void ConfigureRelations(ModelBuilder modelBuilder)
         {
-            // User relationer
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Reservations)
-                .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            // User -> OrderDetails
             modelBuilder.Entity<User>()
                 .HasMany(u => u.OrderDetails)
                 .WithOne(o => o.User)
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Category relationer
+            // Category -> Tools
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Tools)
                 .WithOne(t => t.Category)
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Tool relationer
-            modelBuilder.Entity<Tool>()
-                .HasMany(t => t.ReservationTools)
-                .WithOne(rt => rt.Tool)
-                .HasForeignKey(rt => rt.ToolId)
-                .OnDelete(DeleteBehavior.Cascade);
-
+            // Tool -> OrderDetails
             modelBuilder.Entity<Tool>()
                 .HasMany(t => t.OrderDetails)
                 .WithOne(o => o.Tool)
                 .HasForeignKey(o => o.ToolId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Reservation relationer
-            modelBuilder.Entity<Reservation>()
-                .HasMany(r => r.ReservationTools)
-                .WithOne(rt => rt.Reservation)
-                .HasForeignKey(rt => rt.ReservationId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Reservation>()
-                .HasMany(r => r.OrderDetails)
-                .WithOne(o => o.Reservation)
-                .HasForeignKey(o => o.ReservationId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            // ReservationTool composite key
-            modelBuilder.Entity<ReservationTool>()
-                .HasKey(rt => rt.Id);
-
-            modelBuilder.Entity<ReservationTool>()
-                .HasIndex(rt => new { rt.ReservationId, rt.ToolId })
-                .IsUnique();
 
             // Decimal precision för priser
             modelBuilder.Entity<Tool>()
@@ -97,11 +64,8 @@ namespace TooliRent.Infrastructure.Data
             modelBuilder.Entity<OrderDeatils>()
                 .Property(o => o.LateFee)
                 .HasPrecision(10, 2);
-
-            modelBuilder.Entity<ReservationTool>()
-                .Property(rt => rt.EstimatedPrice)
-                .HasPrecision(10, 2);
         }
+
         private void SeedData(ModelBuilder modelBuilder)
         {
             // Seed Users
@@ -112,9 +76,8 @@ namespace TooliRent.Infrastructure.Data
                     FirstName = "Leon",
                     LastName = "Johansson",
                     Email = "Leon.Johanssonsens@example.com",
-                    PasswordHash = "Adminpower", 
-                    Role = "Admin",
-
+                    PasswordHash = "Adminpower",
+                    Role = "Admin"
                 },
                 new User
                 {
@@ -122,9 +85,8 @@ namespace TooliRent.Infrastructure.Data
                     FirstName = "John",
                     LastName = "Doe",
                     Email = "DoeTheJohn@example.com",
-                    PasswordHash = "password123", 
-                    Role = "Member",
-
+                    PasswordHash = "password123",
+                    Role = "Member"
                 },
                 new User
                 {
@@ -133,41 +95,38 @@ namespace TooliRent.Infrastructure.Data
                     LastName = "Boström",
                     Email = "StarTrekFan@example.com",
                     PasswordHash = "Maythe4",
-                    Role = "Member",
-
+                    Role = "Member"
                 }
             );
+
             // Seed Categories
             modelBuilder.Entity<Category>().HasData(
                 new Category
                 {
                     Id = 1,
                     Name = "Elverktyg",
-                    Description = "Elektriska verktyg för byggarbete och hantverk",
-
+                    Description = "Elektriska verktyg för byggarbete och hantverk"
                 },
                 new Category
                 {
                     Id = 2,
                     Name = "Handverktyg",
-                    Description = "Traditionella handverktyg för precision och detaljarbete",
-
+                    Description = "Traditionella handverktyg för precision och detaljarbete"
                 },
                 new Category
                 {
                     Id = 3,
                     Name = "Mätverktyg",
-                    Description = "Verktyg för mätning och märkning",
-
+                    Description = "Verktyg för mätning och märkning"
                 },
                 new Category
                 {
                     Id = 4,
                     Name = "Säkerhetsutrustning",
-                    Description = "Skyddsutrustning för säkert arbete",
-
+                    Description = "Skyddsutrustning för säkert arbete"
                 }
             );
+
             // Seed Tools
             modelBuilder.Entity<Tool>().HasData(
                 // Elverktyg
@@ -177,12 +136,11 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Slagborrmaskin",
                     Brand = "Bosch",
                     Model = "GSB 13 RE",
-                    Status = "Available",
                     Description = "Professionell slagborrmaskin för betong och murning",
                     PricePerDay = 45.00m,
                     IsAvailable = true,
-                    CategoryId = 1,
-
+                    SerialNumber = "BOSCH-001",
+                    CategoryId = 1
                 },
                 new Tool
                 {
@@ -190,12 +148,11 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Vinkelslip",
                     Brand = "Makita",
                     Model = "GA5030",
-                    Status = "Available",
                     Description = "125mm vinkelslip för kapning och slipning",
                     PricePerDay = 35.00m,
                     IsAvailable = true,
-                    CategoryId = 1,
-
+                    SerialNumber = "MAKITA-002",
+                    CategoryId = 1
                 },
                 new Tool
                 {
@@ -203,14 +160,12 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Sticksåg",
                     Brand = "Festool",
                     Model = "PS 420 EBQ",
-                    Status = "Available",
                     Description = "Precisionsticksåg med pendelfunktion",
                     PricePerDay = 55.00m,
                     IsAvailable = true,
-                    CategoryId = 1,
-
+                    SerialNumber = "FESTOOL-003",
+                    CategoryId = 1
                 },
-
                 // Handverktyg
                 new Tool
                 {
@@ -218,12 +173,11 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Hammare",
                     Brand = "Stanley",
                     Model = "STHT0-51309",
-                    Status = "Available",
                     Description = "Kluvspark 450g med glasfiberhandtag",
                     PricePerDay = 15.00m,
                     IsAvailable = true,
-                    CategoryId = 2,
-
+                    SerialNumber = "STANLEY-004",
+                    CategoryId = 2
                 },
                 new Tool
                 {
@@ -231,14 +185,12 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Skruvmejselset",
                     Brand = "Wera",
                     Model = "Kraftform Plus",
-                    Status = "Available",
                     Description = "Set med 6 isolerade skruvmejslar",
                     PricePerDay = 20.00m,
                     IsAvailable = true,
-                    CategoryId = 2,
-
+                    SerialNumber = "WERA-005",
+                    CategoryId = 2
                 },
-
                 // Mätverktyg
                 new Tool
                 {
@@ -246,12 +198,11 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Lasermätare",
                     Brand = "Leica",
                     Model = "DISTO D2",
-                    Status = "Available",
                     Description = "Precision laserdistansmätare upp till 100m",
                     PricePerDay = 40.00m,
                     IsAvailable = true,
-                    CategoryId = 3,
-
+                    SerialNumber = "LEICA-006",
+                    CategoryId = 3
                 },
                 new Tool
                 {
@@ -259,27 +210,24 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Vattenpass",
                     Brand = "Stabila",
                     Model = "70-2",
-                    Status = "Available",
                     Description = "Aluminium vattenpass 60cm med 3 libeller",
                     PricePerDay = 25.00m,
                     IsAvailable = true,
-                    CategoryId = 3,
-
+                    SerialNumber = "STABILA-007",
+                    CategoryId = 3
                 },
-
-                // Säkerhetsutrustning  
+                // Säkerhetsutrustning
                 new Tool
                 {
                     Id = 8,
                     Name = "Skyddshjälm",
                     Brand = "3M",
                     Model = "SecureFit X5000",
-                    Status = "Available",
                     Description = "Ventilerad skyddshjälm med justerbart huvudband",
                     PricePerDay = 10.00m,
                     IsAvailable = true,
-                    CategoryId = 4,
-
+                    SerialNumber = "3M-008",
+                    CategoryId = 4
                 },
                 new Tool
                 {
@@ -287,68 +235,33 @@ namespace TooliRent.Infrastructure.Data
                     Name = "Skyddsglasögon",
                     Brand = "Uvex",
                     Model = "i-vo",
-                    Status = "Maintenance",
                     Description = "Skyddsglasögon med anti-imma coating",
                     PricePerDay = 8.00m,
                     IsAvailable = false,
-                    CategoryId = 4,
+                    SerialNumber = "UVEX-009",
+                    CategoryId = 4
+                }
+            );
 
-                }
-            );
-            // Seed Reservations
-            modelBuilder.Entity<Reservation>().HasData(
-                new Reservation
-                {
-                    Id = 1,
-                    Date2Hire = new DateTime(2025, 9, 1),
-                    Date2Return = new DateTime(2025, 9, 4),
-                    Status = "Active",
-                    UserId = 2,
-                }
-            );      
-            // Seed ReservationTools
-            modelBuilder.Entity<ReservationTool>().HasData(
-                new ReservationTool
-                {
-                    Id = 1,
-                    ReservationId = 1,
-                    ToolId = 1,
-                    EstimatedPrice = 135.00m, 
-                    EstimatedDays = 3,
-                    Notes = "Behöver för borrning i betong",
-                   
-                },
-                new ReservationTool
-                {
-                    Id = 2,
-                    ReservationId = 1,
-                    ToolId = 6,
-                    EstimatedPrice = 280.00m, 
-                    EstimatedDays = 7,
-                    Notes = "För exakt mätning av utrymme",
-                   
-                }
-            );
             // Seed OrderDetails
             modelBuilder.Entity<OrderDeatils>().HasData(
                 new OrderDeatils
                 {
                     Id = 1,
-                    Date2Hire = new DateTime(2025, 9, 1),
-                    Date2Return = new DateTime(2025, 9, 4),
+                    Date2Hire = new DateTime(2024, 9, 1),
+                    Date2Return = new DateTime(2024, 9, 4),
                     Status = "Returned",
-                    TotalPrice = 105.00m, // 3 dagar * 35kr
+                    TotalPrice = 105.00m,
                     LateFee = 0.00m,
-                    CheckedOutAt = new DateTime(2025, 9, 1),
-                    ReturnedAt = new DateTime(2025, 9, 4),
+                    CheckedOutAt = new DateTime(2024, 9, 1),
+                    ReturnedAt = new DateTime(2024, 9, 4),
+                    CreatedAt = new DateTime(2024, 9, 1),
+                    UpdatedAt = new DateTime(2024, 9, 4),
                     UserId = 3,
-                    ToolId = 2, // Vinkelslip
-
+                    ToolId = 2,
+                    ReservationId = null
                 }
             );
-
-
         }
-
     }
 }

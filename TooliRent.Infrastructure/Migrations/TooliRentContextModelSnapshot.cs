@@ -32,13 +32,11 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -82,7 +80,7 @@ namespace TooliRent.Infrastructure.Migrations
                     b.Property<DateTime?>("CheckedOutAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Date2Hire")
@@ -91,7 +89,7 @@ namespace TooliRent.Infrastructure.Migrations
                     b.Property<DateTime>("Date2Return")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("LateFee")
+                    b.Property<decimal?>("LateFee")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
@@ -103,8 +101,7 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ToolId")
                         .HasColumnType("int");
@@ -113,15 +110,13 @@ namespace TooliRent.Infrastructure.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReservationId");
 
                     b.HasIndex("ToolId");
 
@@ -133,123 +128,17 @@ namespace TooliRent.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CheckedOutAt = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date2Hire = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date2Return = new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckedOutAt = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LateFee = 0.00m,
-                            ReturnedAt = new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReturnedAt = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Returned",
                             ToolId = 2,
                             TotalPrice = 105.00m,
+                            UpdatedAt = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = 3
-                        });
-                });
-
-            modelBuilder.Entity("TooliRent.Models.Reservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CanceledAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CanceledReason")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date2Hire")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date2Return")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reservations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CanceledAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date2Hire = new DateTime(2025, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date2Return = new DateTime(2025, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            UserId = 2
-                        });
-                });
-
-            modelBuilder.Entity("TooliRent.Models.ReservationTool", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EstimatedDays")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("EstimatedPrice")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToolId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ToolId");
-
-                    b.HasIndex("ReservationId", "ToolId")
-                        .IsUnique();
-
-                    b.ToTable("ReservationTools");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            EstimatedDays = 3,
-                            EstimatedPrice = 135.00m,
-                            Notes = "Behöver för borrning i betong",
-                            ReservationId = 1,
-                            ToolId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            EstimatedDays = 7,
-                            EstimatedPrice = 280.00m,
-                            Notes = "För exakt mätning av utrymme",
-                            ReservationId = 1,
-                            ToolId = 6
                         });
                 });
 
@@ -263,42 +152,32 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.Property<string>("Brand")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PricePerDay")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("SerialNumber")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -317,7 +196,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "GSB 13 RE",
                             Name = "Slagborrmaskin",
                             PricePerDay = 45.00m,
-                            Status = "Available"
+                            SerialNumber = "BOSCH-001"
                         },
                         new
                         {
@@ -329,7 +208,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "GA5030",
                             Name = "Vinkelslip",
                             PricePerDay = 35.00m,
-                            Status = "Available"
+                            SerialNumber = "MAKITA-002"
                         },
                         new
                         {
@@ -341,7 +220,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "PS 420 EBQ",
                             Name = "Sticksåg",
                             PricePerDay = 55.00m,
-                            Status = "Available"
+                            SerialNumber = "FESTOOL-003"
                         },
                         new
                         {
@@ -353,7 +232,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "STHT0-51309",
                             Name = "Hammare",
                             PricePerDay = 15.00m,
-                            Status = "Available"
+                            SerialNumber = "STANLEY-004"
                         },
                         new
                         {
@@ -365,7 +244,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "Kraftform Plus",
                             Name = "Skruvmejselset",
                             PricePerDay = 20.00m,
-                            Status = "Available"
+                            SerialNumber = "WERA-005"
                         },
                         new
                         {
@@ -377,7 +256,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "DISTO D2",
                             Name = "Lasermätare",
                             PricePerDay = 40.00m,
-                            Status = "Available"
+                            SerialNumber = "LEICA-006"
                         },
                         new
                         {
@@ -389,7 +268,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "70-2",
                             Name = "Vattenpass",
                             PricePerDay = 25.00m,
-                            Status = "Available"
+                            SerialNumber = "STABILA-007"
                         },
                         new
                         {
@@ -401,7 +280,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "SecureFit X5000",
                             Name = "Skyddshjälm",
                             PricePerDay = 10.00m,
-                            Status = "Available"
+                            SerialNumber = "3M-008"
                         },
                         new
                         {
@@ -413,7 +292,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "i-vo",
                             Name = "Skyddsglasögon",
                             PricePerDay = 8.00m,
-                            Status = "Maintenance"
+                            SerialNumber = "UVEX-009"
                         });
                 });
 
@@ -427,28 +306,23 @@ namespace TooliRent.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -486,11 +360,6 @@ namespace TooliRent.Infrastructure.Migrations
 
             modelBuilder.Entity("TooliRent.Models.OrderDeatils", b =>
                 {
-                    b.HasOne("TooliRent.Models.Reservation", "Reservation")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("TooliRent.Models.Tool", "Tool")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ToolId")
@@ -503,41 +372,9 @@ namespace TooliRent.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Reservation");
-
                     b.Navigation("Tool");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TooliRent.Models.Reservation", b =>
-                {
-                    b.HasOne("TooliRent.Models.User", "User")
-                        .WithMany("Reservations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TooliRent.Models.ReservationTool", b =>
-                {
-                    b.HasOne("TooliRent.Models.Reservation", "Reservation")
-                        .WithMany("ReservationTools")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TooliRent.Models.Tool", "Tool")
-                        .WithMany("ReservationTools")
-                        .HasForeignKey("ToolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reservation");
-
-                    b.Navigation("Tool");
                 });
 
             modelBuilder.Entity("TooliRent.Models.Tool", b =>
@@ -556,25 +393,14 @@ namespace TooliRent.Infrastructure.Migrations
                     b.Navigation("Tools");
                 });
 
-            modelBuilder.Entity("TooliRent.Models.Reservation", b =>
-                {
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("ReservationTools");
-                });
-
             modelBuilder.Entity("TooliRent.Models.Tool", b =>
                 {
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("ReservationTools");
                 });
 
             modelBuilder.Entity("TooliRent.Models.User", b =>
                 {
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }
