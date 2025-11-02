@@ -11,18 +11,17 @@ namespace TooliRent.Core.Interfaces.IService
     public interface IAuthService  
     {
         // Authentication
-        Task<AuthResponseDTO> RegisterAsync(CreateUserDTO dto);
-        Task<AuthResponseDTO> LoginAsync(LogInDTO dto);
+        Task<AuthResponseDTO> RegisterAsync(CreateUserDTO dto, CancellationToken ct = default); // CreateUserAsync
+        Task<AuthResponseDTO> LoginAsync(LogInDTO dto, CancellationToken ct = default);
 
-        // Profile management
-        Task<UserDTO> GetProfileAsync(int userId);
-        Task UpdateProfileAsync(int userId, UpdateUserDTO dto);
+        // Crud
+        Task<IEnumerable<UserDTO>> GetAllUsersAsync(CancellationToken ct = default);
+        Task<UserDTO?> GetUserByIdAsync(int userId, CancellationToken ct = default);
+        Task<UserDTO?> UpdateUserAsync(int userId, UpdateUserDTO dto, CancellationToken ct = default);
+        Task DeleteUserAsync(int userId, CancellationToken ct = default);
 
-        // Password management
-        Task ChangePasswordAsync(int userId, ForgotPasswordDTO dto);
-        Task ForgotPasswordAsync(ForgotPasswordDTO dto);
 
         // Admin operations (om du har UpdateUserStatusDto)
-        Task UpdateUserStatusAsync(int userId, UpdateUserStatusDTO dto);
+        //Task UpdateUserStatusAsync(int userId, UpdateUserStatusDTO dto);
     }
 }

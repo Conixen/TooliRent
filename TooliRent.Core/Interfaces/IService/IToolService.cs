@@ -10,14 +10,12 @@ namespace TooliRent.Core.Interfaces.IService
 {
     public interface IToolService
     {
-        Task<ToolDetailDTO?> GetByIdAsync(int id);
-        Task<List<ToolSummaryDTO>> GetAllAsync();
-        Task<List<ToolSummaryDTO>> GetAvailableAsync();
-        Task<List<ToolSummaryDTO>> GetByCategoryAsync(int categoryId);
-        Task<ToolDetailDTO> CreateAsync(CreateToolDto dto);
-        Task UpdateAsync(int id, UpdateToolDTO dto);
-        Task UpdateStatusAsync(int id, UpdateToolStatusDTO dto);
-        Task DeleteAsync(int id);
-        Task<List<ToolSelectDTO>> GetForSelectAsync();
+        Task<IEnumerable<ToolDTO>> GetAllAsync(CancellationToken ct = default);
+        Task<ToolDTO?> GetByIdAsync(int id, CancellationToken ct = default);
+        Task<ToolDTO> CreateAsync(CreateToolDTO create, CancellationToken ct = default);
+        Task<ToolDTO?> UpdateAsync(int id, UpdateToolDTO update, CancellationToken ct = default);
+        Task DeleteAsync(int id, CancellationToken ct = default);
+        Task<IEnumerable<ToolDTO>> GetAvailableAsync(CancellationToken ct = default);
+        Task<IEnumerable<ToolDTO>> GetByCategoryAsync(int categoryId, CancellationToken ct = default);
     }
 }

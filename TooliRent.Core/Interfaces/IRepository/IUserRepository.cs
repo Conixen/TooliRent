@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TooliRent.DTOs.AuthDTOs;
 using TooliRent.Models;
 
 namespace TooliRent.Core.Interfaces.IRepository
 {
-    public interface IUserRepository    // För AuthService
+    public interface IUserRepository    
     {
-        Task<User> GetByIdAsync(int id);
-        Task<List<User>> GetAllUserAsync();
-        Task<User> GetByEmailAsync(string email);  
-        Task<User> AddAsync(User user);
+        Task<IEnumerable<User>> GetAllUserAsync();
+        Task<User?> GetByIdAsync(int id);
+        Task<User> CreateAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
-        Task<bool> EmailExistsAsync(string email); 
+
+        Task<User> GetByEmailAsync(string email);   // get user by email
+        Task<bool> EmailExistsAsync(string email);  // check if email exists
     }
 }

@@ -11,11 +11,10 @@ namespace TooliRent.Core.Interfaces.IService
 {
     public interface ICategoryService
     {
-        Task<CategoryDto> GetCategoryByIdAsync(int id);
-        Task<List<CategoryDto>> GetAllCategoriesAsync();
-        Task<CategoryDto> CreateCategoryAsync(CreateCategoryDTO dto);
-        Task<CategoryDto> UpdateCategoryAsync(int id, UpdateCategoryDTO dto);
-        Task DeleteCategoryAsync(int id);
+        Task<IEnumerable<CategoryDTO>> GetAllAsync(CancellationToken ct = default);
+        Task<CategoryDTO?> GetByIdAsync(int id, CancellationToken ct = default);
+        Task<CategoryDTO> CreateAsync(CreateCategoryDTO create, CancellationToken ct = default);
+        Task<CategoryDTO> UpdateAsync(int id, UpdateCategoryDTO update, CancellationToken ct = default);
+        Task DeleteAsync(int id, CancellationToken ct = default);
     }
-
 }
