@@ -23,73 +23,53 @@ namespace TooliRent.Services.Service
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDTO dto)
-        {
-            // Mappa DTO till entity
-            var category = _mapper.Map<Category>(dto);
-
-            // Spara i databas
-            var savedCategory = await _categoryRepository.AddAsync(category);
-
-            // Mappa tillbaka till DTO och returnera
-            return _mapper.Map<CategoryDto>(savedCategory);
-        }
-
-        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<CategoryDTO>> GetAllAsync(CancellationToken ct = default)
         {
             var categories = await _categoryRepository.GetAllAsync();
-            return _mapper.Map<List<CategoryDto>>(categories);
+            return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(int id)
+        public async Task<CategoryDTO?> GetByIdAsync(int id, CancellationToken ct = default)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
-            return _mapper.Map<CategoryDto>(category);
+            if (category == null)
+            {
+                throw new KeyNotFoundException($"Category with ID {id} not found.");
+            }
+            return _mapper.Map<CategoryDTO>(category);
         }
 
-        public async Task<CategoryDto> UpdateCategoryAsync(int id, UpdateCategoryDTO dto)
+        public async Task<CategoryDTO> CreateAsync(CreateCategoryDTO create, CancellationToken ct = default)
         {
-            // Hämta befintlig category
+            var category = _mapper.Map<Category>(create);
+            
+            var createCategory = await _categoryRepository.CreateAsync(category);
+            return _mapper.Map<CategoryDTO>(createCategory);
+        }
+
+        public async Task<CategoryDTO?> UpdateAsync(int id, UpdateCategoryDTO update, CancellationToken ct = default)
+        {
             var existingCategory = await _categoryRepository.GetByIdAsync(id);
+            if (existingCategory == null)
+            {
+                throw new KeyNotFoundException($"Category with ID {id} not found.");
+            }
 
-            // Mappa uppdateringar från DTO till entity
-            _mapper.Map(dto, existingCategory);
-
-            // Spara ändringar
+            _mapper.Map(update, existingCategory);
             await _categoryRepository.UpdateAsync(existingCategory);
 
-            // Returnera uppdaterad category som DTO
-            return _mapper.Map<CategoryDto>(existingCategory);
+            return _mapper.Map<CategoryDTO>(existingCategory);
         }
 
-        public async Task DeleteCategoryAsync(int id)
+        public async Task DeleteAsync(int id, CancellationToken ct = default)
         {
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null)
+            {
+                throw new KeyNotFoundException($"Category with ID {id} not found.");
+            }
             await _categoryRepository.DeleteAsync(id);
-        }
 
-        public Task<Category> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Category>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Category> AddAsync(Category category)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Category category)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

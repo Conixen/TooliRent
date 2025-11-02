@@ -21,81 +21,61 @@ namespace TooliRent.Services.Service
             _toolRepository = toolRepository;
             _mapper = mapper;
         }
-        public async Task<ToolDetailDTO?> GetByIdAsync(int id)
+
+        public async Task<IEnumerable<ToolDTO>> GetAllAsync(CancellationToken ct = default)
+        {
+            var tools = await _toolRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ToolDTO>>(tools);
+        }
+
+        public async Task<ToolDTO?> GetByIdAsync(int id, CancellationToken ct = default)
         {
             var tool = await _toolRepository.GetByIdAsync(id);
-
             if (tool == null)
                 return null;
 
-            return _mapper.Map<ToolDetailDTO>(tool);
+            return _mapper.Map<ToolDTO>(tool);
         }
-        public async Task<List<ToolSummaryDTO>> GetAllAsync()
+
+        public async Task<ToolDTO> CreateAsync(CreateToolDTO create, CancellationToken ct = default)
         {
-            var tools = await _toolRepository.GetAllAsync();
-            return _mapper.Map<List<ToolSummaryDTO>>(tools);
+            var tool = _mapper.Map<Tool>(create);
+            tool.IsAvailable = true; // tool is avaiablöel when created
+
+            var createdTool = await _toolRepository.CreateAsync(tool);
+            return _mapper.Map<ToolDTO>(createdTool);
         }
 
-        public async Task<List<ToolSummaryDTO>> GetAvailableAsync()
-        {
-            var tools = await _toolRepository.GetAvailableAsync();
-            return _mapper.Map<List<ToolSummaryDTO>>(tools);
-        }
-
-        public async Task<List<ToolSummaryDTO>> GetByCategoryAsync(int categoryId)
-        {
-            var tools = await _toolRepository.GetByCategoryAsync(categoryId);
-            return _mapper.Map<List<ToolSummaryDTO>>(tools);
-        }
-
-        public async Task<List<ToolSelectDTO>> GetForSelectAsync()
-        {
-            var tools = await _toolRepository.GetAvailableAsync();
-            return _mapper.Map<List<ToolSelectDTO>>(tools);
-        }
-
-        public async Task<ToolDetailDTO> CreateAsync(CreateToolDto dto)
-        {
-            var tool = _mapper.Map<Tool>(dto);
-
-            var createdTool = await _toolRepository.AddAsync(tool);
-
-            // Hämta med Category inkluderat för korrekt mapping
-            var toolWithCategory = await _toolRepository.GetByIdAsync(createdTool.Id);
-
-            return _mapper.Map<ToolDetailDTO>(toolWithCategory);
-        }
-
-        public async Task UpdateAsync(int id, UpdateToolDTO dto)
+        public async Task<ToolDTO?> UpdateAsync(int id, UpdateToolDTO update, CancellationToken ct = default)
         {
             var existingTool = await _toolRepository.GetByIdAsync(id);
-
             if (existingTool == null)
-                throw new ArgumentException("Tool not found");
+                return null;
 
-            _mapper.Map(dto, existingTool);
+            _mapper.Map(update, existingTool);
             await _toolRepository.UpdateAsync(existingTool);
+
+            return _mapper.Map<ToolDTO>(existingTool);
         }
-
-        public async Task UpdateStatusAsync(int id, UpdateToolStatusDTO dto)
+        public async Task DeleteAsync(int id, CancellationToken ct = default)
         {
-            var existingTool = await _toolRepository.GetByIdAsync(id);
-
-            if (existingTool == null)
-                throw new ArgumentException("Tool not found");
-
-            _mapper.Map(dto, existingTool);
-            await _toolRepository.UpdateAsync(existingTool);
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var existingTool = await _toolRepository.GetByIdAsync(id);
-
-            if (existingTool == null)
-                throw new ArgumentException("Tool not found");
+            var tool = await _toolRepository.GetByIdAsync(id);
+            if (tool == null)
+                throw new KeyNotFoundException($"Tool with ID {id} not found.");
 
             await _toolRepository.DeleteAsync(id);
+        }
+
+        public async Task<IEnumerable<ToolDTO>> GetAvailableAsync(CancellationToken ct = default)
+        {
+            var tools = await _toolRepository.GetAvailableAsync();
+            return _mapper.Map<IEnumerable<ToolDTO>>(tools);
+        }
+
+        public async Task<IEnumerable<ToolDTO>> GetByCategoryAsync(int categoryId, CancellationToken ct = default)
+        {
+            var tools = await _toolRepository.GetByCategoryAsync(categoryId);
+            return _mapper.Map<IEnumerable<ToolDTO>>(tools);
         }
     }
 }
