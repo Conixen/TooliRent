@@ -2,7 +2,7 @@
 
 namespace TooliRent.DTO_s.ToolsDTOs
 {
-    public class ToolDTO    // admin only
+    public class ToolDTO    
     {
         public int Id { get; set; }
         public string Name { get; set; }

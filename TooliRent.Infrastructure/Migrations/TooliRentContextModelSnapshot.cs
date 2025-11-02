@@ -66,6 +66,12 @@ namespace TooliRent.Infrastructure.Migrations
                             Id = 4,
                             Description = "Skyddsutrustning för säkert arbete",
                             Name = "Säkerhetsutrustning"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Verktyg för trädgårdsarbete och utomhusbruk",
+                            Name = "Trädgårdsverktyg"
                         });
                 });
 
@@ -128,16 +134,138 @@ namespace TooliRent.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CheckedOutAt = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckedOutAt = new DateTime(2024, 9, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Date2Hire = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Date2Return = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LateFee = 0.00m,
-                            ReturnedAt = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReturnedAt = new DateTime(2024, 9, 4, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             Status = "Returned",
                             ToolId = 2,
                             TotalPrice = 105.00m,
-                            UpdatedAt = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedAt = new DateTime(2024, 9, 4, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CheckedOutAt = new DateTime(2024, 9, 5, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LateFee = 0.00m,
+                            ReturnedAt = new DateTime(2024, 9, 10, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Returned",
+                            ToolId = 1,
+                            TotalPrice = 270.00m,
+                            UpdatedAt = new DateTime(2024, 9, 10, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CheckedOutAt = new DateTime(2024, 9, 8, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 9, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LateFee = 50.00m,
+                            ReturnedAt = new DateTime(2024, 9, 10, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Returned",
+                            ToolId = 7,
+                            TotalPrice = 40.00m,
+                            UpdatedAt = new DateTime(2024, 9, 10, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CheckedOutAt = new DateTime(2024, 9, 12, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 9, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LateFee = 0.00m,
+                            ReturnedAt = new DateTime(2024, 9, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Returned",
+                            ToolId = 10,
+                            TotalPrice = 120.00m,
+                            UpdatedAt = new DateTime(2024, 9, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CheckedOutAt = new DateTime(2024, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LateFee = 0.00m,
+                            ReturnedAt = new DateTime(2024, 10, 3, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Returned",
+                            ToolId = 3,
+                            TotalPrice = 165.00m,
+                            UpdatedAt = new DateTime(2024, 10, 3, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CheckedOutAt = new DateTime(2024, 10, 20, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "CheckedOut",
+                            ToolId = 9,
+                            TotalPrice = 200.00m,
+                            UpdatedAt = new DateTime(2024, 10, 20, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CheckedOutAt = new DateTime(2024, 10, 22, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 10, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "CheckedOut",
+                            ToolId = 4,
+                            TotalPrice = 300.00m,
+                            UpdatedAt = new DateTime(2024, 10, 22, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2024, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Pending",
+                            ToolId = 15,
+                            TotalPrice = 180.00m,
+                            UpdatedAt = new DateTime(2024, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2024, 10, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Pending",
+                            ToolId = 14,
+                            TotalPrice = 90.00m,
+                            UpdatedAt = new DateTime(2024, 10, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Hire = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date2Return = new DateTime(2024, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Cancelled",
+                            ToolId = 16,
+                            TotalPrice = 165.00m,
+                            UpdatedAt = new DateTime(2024, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = 3
                         });
                 });
@@ -225,6 +353,30 @@ namespace TooliRent.Infrastructure.Migrations
                         new
                         {
                             Id = 4,
+                            Brand = "DeWalt",
+                            CategoryId = 1,
+                            Description = "Kraftfull cirkelsåg med 1600W motor",
+                            IsAvailable = true,
+                            Model = "DWE575K",
+                            Name = "Cirkelsåg",
+                            PricePerDay = 50.00m,
+                            SerialNumber = "DEWALT-004"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Brand = "Bosch",
+                            CategoryId = 1,
+                            Description = "Kompakt skruvdragare med 2 batterier",
+                            IsAvailable = true,
+                            Model = "GSR 18V-21",
+                            Name = "Batteridriven skruvdragare",
+                            PricePerDay = 40.00m,
+                            SerialNumber = "BOSCH-005"
+                        },
+                        new
+                        {
+                            Id = 6,
                             Brand = "Stanley",
                             CategoryId = 2,
                             Description = "Kluvspark 450g med glasfiberhandtag",
@@ -232,11 +384,11 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "STHT0-51309",
                             Name = "Hammare",
                             PricePerDay = 15.00m,
-                            SerialNumber = "STANLEY-004"
+                            SerialNumber = "STANLEY-006"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 7,
                             Brand = "Wera",
                             CategoryId = 2,
                             Description = "Set med 6 isolerade skruvmejslar",
@@ -244,11 +396,23 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "Kraftform Plus",
                             Name = "Skruvmejselset",
                             PricePerDay = 20.00m,
-                            SerialNumber = "WERA-005"
+                            SerialNumber = "WERA-007"
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 8,
+                            Brand = "Bahco",
+                            CategoryId = 2,
+                            Description = "Universalhandsåg med XT-tandning",
+                            IsAvailable = true,
+                            Model = "2600-19-XT",
+                            Name = "Handsåg",
+                            PricePerDay = 25.00m,
+                            SerialNumber = "BAHCO-008"
+                        },
+                        new
+                        {
+                            Id = 9,
                             Brand = "Leica",
                             CategoryId = 3,
                             Description = "Precision laserdistansmätare upp till 100m",
@@ -256,11 +420,11 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "DISTO D2",
                             Name = "Lasermätare",
                             PricePerDay = 40.00m,
-                            SerialNumber = "LEICA-006"
+                            SerialNumber = "LEICA-009"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 10,
                             Brand = "Stabila",
                             CategoryId = 3,
                             Description = "Aluminium vattenpass 60cm med 3 libeller",
@@ -268,11 +432,23 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "70-2",
                             Name = "Vattenpass",
                             PricePerDay = 25.00m,
-                            SerialNumber = "STABILA-007"
+                            SerialNumber = "STABILA-010"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 11,
+                            Brand = "Stanley",
+                            CategoryId = 3,
+                            Description = "Extra starkt måttband med magnetisk krok",
+                            IsAvailable = true,
+                            Model = "FatMax",
+                            Name = "Måttband 10m",
+                            PricePerDay = 10.00m,
+                            SerialNumber = "STANLEY-011"
+                        },
+                        new
+                        {
+                            Id = 12,
                             Brand = "3M",
                             CategoryId = 4,
                             Description = "Ventilerad skyddshjälm med justerbart huvudband",
@@ -280,11 +456,11 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "SecureFit X5000",
                             Name = "Skyddshjälm",
                             PricePerDay = 10.00m,
-                            SerialNumber = "3M-008"
+                            SerialNumber = "3M-012"
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 13,
                             Brand = "Uvex",
                             CategoryId = 4,
                             Description = "Skyddsglasögon med anti-imma coating",
@@ -292,7 +468,55 @@ namespace TooliRent.Infrastructure.Migrations
                             Model = "i-vo",
                             Name = "Skyddsglasögon",
                             PricePerDay = 8.00m,
-                            SerialNumber = "UVEX-009"
+                            SerialNumber = "UVEX-013"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Brand = "3M",
+                            CategoryId = 4,
+                            Description = "Professionellt hörselskydd med SNR 37dB",
+                            IsAvailable = true,
+                            Model = "Peltor X5A",
+                            Name = "Hörselskydd",
+                            PricePerDay = 12.00m,
+                            SerialNumber = "3M-014"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Brand = "Husqvarna",
+                            CategoryId = 5,
+                            Description = "Bensindriven grästrimmer med 28cc motor",
+                            IsAvailable = true,
+                            Model = "129R",
+                            Name = "Grästrimmer",
+                            PricePerDay = 60.00m,
+                            SerialNumber = "HUSQ-015"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Brand = "Stihl",
+                            CategoryId = 5,
+                            Description = "Bensindriven häcksax 60cm blad",
+                            IsAvailable = true,
+                            Model = "HS 45",
+                            Name = "Häcksax",
+                            PricePerDay = 55.00m,
+                            SerialNumber = "STIHL-016"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Brand = "Makita",
+                            CategoryId = 5,
+                            Description = "Kraftfull 4-takts lövblåsare",
+                            IsAvailable = true,
+                            Model = "BHX2501",
+                            Name = "Lövblåsare",
+                            PricePerDay = 45.00m,
+                            SerialNumber = "MAKITA-017"
                         });
                 });
 
@@ -311,6 +535,9 @@ namespace TooliRent.Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -332,8 +559,9 @@ namespace TooliRent.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "Leon.Johanssonsens@example.com",
+                            Email = "Leon.Admin@example.com",
                             FirstName = "Leon",
+                            IsActive = true,
                             LastName = "Johansson",
                             PasswordHash = "Adminpower",
                             Role = "Admin"
@@ -343,6 +571,7 @@ namespace TooliRent.Infrastructure.Migrations
                             Id = 2,
                             Email = "DoeTheJohn@example.com",
                             FirstName = "John",
+                            IsActive = true,
                             LastName = "Doe",
                             PasswordHash = "password123",
                             Role = "Member"
@@ -352,8 +581,39 @@ namespace TooliRent.Infrastructure.Migrations
                             Id = 3,
                             Email = "StarTrekFan@example.com",
                             FirstName = "Petter",
+                            IsActive = true,
                             LastName = "Boström",
                             PasswordHash = "Maythe4",
+                            Role = "Member"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "emma.andersson@example.com",
+                            FirstName = "Emma",
+                            IsActive = true,
+                            LastName = "Andersson",
+                            PasswordHash = "Emma2024!",
+                            Role = "Member"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Email = "oscar.l@example.com",
+                            FirstName = "Oscar",
+                            IsActive = true,
+                            LastName = "Lindberg",
+                            PasswordHash = "Oscar123",
+                            Role = "Member"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Email = "sara.k@example.com",
+                            FirstName = "Sara",
+                            IsActive = false,
+                            LastName = "Karlsson",
+                            PasswordHash = "SaraK2024",
                             Role = "Member"
                         });
                 });

@@ -165,11 +165,11 @@ namespace TooliRent.Services.Service
             order.ReturnedAt = DateTime.UtcNow;
             order.UpdatedAt = DateTime.UtcNow;
 
-            // Beräkna förseningsavgift om för sent
+            // Count late fees
             if (DateTime.UtcNow > order.Date2Return)
             {
                 var daysLate = (DateTime.UtcNow - order.Date2Return).Days;
-                order.LateFee = daysLate * 50m; // 50kr per dag i förseningsavgift
+                order.LateFee = daysLate * 50m; // 50 swedish kronor per day
             }
 
             await _orderRepository.UpdateAsync(order);

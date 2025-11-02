@@ -9,6 +9,7 @@ using TooliRent.Core.Interfaces.IService;
 using TooliRent.DTOs.AuthDTOs;
 using TooliRent.Models;
 using TooliRent.Services.Auth;
+using BCrypt.Net;
 
 namespace TooliRent.Services.Service
 {
@@ -73,8 +74,7 @@ namespace TooliRent.Services.Service
 
             var user = _mapper.Map<User>(dto);
 
-            // TODO: Hash password properly (BCrypt)
-            user.PasswordHash = dto.Password;
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
             var createdUser = await _userRepository.CreateAsync(user);
 
@@ -90,7 +90,7 @@ namespace TooliRent.Services.Service
         {
             var user = await _userRepository.GetByEmailAsync(dto.Email);
 
-            if (user == null || user.PasswordHash != dto.Password)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             {
                 return new AuthResponseDTO
                 {

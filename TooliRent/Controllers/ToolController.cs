@@ -136,7 +136,7 @@ namespace TooliRent.Controllers
                 return NotFound(ex.Message);
             }
         }
-        //--------------------------------------------------------------
+
 
         // GET: api/tools/available
         /// <summary>

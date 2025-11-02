@@ -4,8 +4,6 @@ namespace TooliRent.DTOs.AuthDTOs
 {
     public class UpdateUserStatusDTO
     {
-        [Required]
-        [MaxLength(20)]
         public bool IsActive { get; set; }
         
     }

@@ -9,7 +9,6 @@ namespace TooliRent.Mapping
     {
         public ToolMappingProfile()
         {
-            // Tool → ToolDTO (minimalt - ingen serialNumber, categoryId)
             CreateMap<Tool, ToolDTO>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
