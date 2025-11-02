@@ -48,8 +48,6 @@ namespace TooliRent
 
             // AutoMapper
 
-            //builder.Services.AddAutoMapper(typeof(CategoryMappingProfile));
-            //builder.Services.AddAutoMapper(typeof(AuthMappingProfile));
             builder.Services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<CategoryMappingProfile>();
@@ -70,11 +68,11 @@ namespace TooliRent
                 o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
+                    Type = SecuritySchemeType.Http, // we dont like .ApiKey
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Write in yopur JWT Token"
+                    Description = "Write in yopur JWT Token, no bearerer"
                 });
                 o.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
