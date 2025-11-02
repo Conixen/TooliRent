@@ -9,49 +9,13 @@ namespace TooliRent.Mapping
     {
         public ToolMappingProfile()
         {
-            // CREATE: CreateToolDto -> Tool
-            CreateMap<CreateToolDto, Tool>()
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => "Available"))
-                .ForMember(dest => dest.IsAvailable, opt => opt.MapFrom(src => true))
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.ReservationTools, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
-
-            // UPDATE: UpdateToolDto -> Tool
-            CreateMap<UpdateToolDTO, Tool>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.ReservationTools, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
-
-            // UPDATE STATUS: UpdateToolStatusDto -> Tool
-            CreateMap<UpdateToolStatusDTO, Tool>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Name, opt => opt.Ignore())
-                .ForMember(dest => dest.Brand, opt => opt.Ignore())
-                .ForMember(dest => dest.Model, opt => opt.Ignore())
-                .ForMember(dest => dest.Description, opt => opt.Ignore())
-                .ForMember(dest => dest.PricePerDay, opt => opt.Ignore())
-                .ForMember(dest => dest.CategoryId, opt => opt.Ignore())
-                .ForMember(dest => dest.SerialNumber, opt => opt.Ignore())
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.ReservationTools, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
-
-            // RESPONSE: Tool -> ToolSummaryDto
-            CreateMap<Tool, ToolSummaryDTO>()
+            // Tool → ToolDTO (minimalt - ingen serialNumber, categoryId)
+            CreateMap<Tool, ToolDTO>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
-            // RESPONSE: Tool -> ToolDetailDto
-            CreateMap<Tool, ToolDetailDTO>()
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
+            CreateMap<CreateToolDTO, Tool>();
+            CreateMap<UpdateToolDTO, Tool>();
 
-            // RESPONSE: Tool -> ToolSelectDto (dropdown)
-            CreateMap<Tool, ToolSelectDTO>();
-
-            // SUPPORTING: Category -> ToolCategoryDto
-            CreateMap<Category, ToolCategoryDTO>();
         }
     }
 }

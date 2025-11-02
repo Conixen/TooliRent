@@ -6,22 +6,18 @@ namespace TooliRent.Mapping
 {
     public class CategoryMappingProfile : Profile
     {
-            public CategoryMappingProfile()
-            {
-                // CREATE: CreateCategoryDto -> Category
-                CreateMap<CreateCategoryDTO, Category>();
+        public CategoryMappingProfile()
+        {
+            CreateMap<Category, CategoryDTO>();
 
-                // UPDATE: UpdateCategoryDto -> Category  
-                CreateMap<UpdateCategoryDTO, Category>();
+            CreateMap<CreateCategoryDTO, Category>();
+            //.ForMember(dest => dest.Id, opt => opt.Ignore())
+            //.ForMember(dest => dest.Tools, opt => opt.Ignore());
 
-                // RESPONSE: Category -> CategoryDto
-                CreateMap<Category, CategoryDto>();
+            CreateMap<UpdateCategoryDTO, Category>();
+                //.ForMember(dest => dest.Id, opt => opt.Ignore())
+                //.ForMember(dest => dest.Tools, opt => opt.Ignore());
+        }
 
-                // SELECT: Category -> CategorySelectDto
-                CreateMap<Category, CategorySelectDTO>()
-                    .ForMember(dest => dest.ToolCount, opt => opt.Ignore()) 
-                    .ForMember(dest => dest.HasAvailableTools, opt => opt.Ignore()); 
-            }
-        
     }
 }
