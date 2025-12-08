@@ -17,7 +17,7 @@ namespace TooliRent.Infrastructure.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Tool> Tools { get; set; }
         public DbSet<Category> Categorys { get; set; }
-        public DbSet<OrderDeatils> OrderDeatils { get; set; }
+        public DbSet<OrderDetails> OrderDeatils { get; set; }
 
         //public DbSet<Reservation> Reservations { get; set; }
         //public DbSet<ReservationTool> ReservationTools { get; set; }
@@ -58,11 +58,11 @@ namespace TooliRent.Infrastructure.Data
                 .Property(t => t.PricePerDay)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<OrderDeatils>()
+            modelBuilder.Entity<OrderDetails>()
                 .Property(o => o.TotalPrice)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<OrderDeatils>()
+            modelBuilder.Entity<OrderDetails>()
                 .Property(o => o.LateFee)
                 .HasPrecision(10, 2);
         }
@@ -385,9 +385,9 @@ namespace TooliRent.Infrastructure.Data
             );
 
             // ========== SEED ORDER DETAILS ==========
-            modelBuilder.Entity<OrderDeatils>().HasData(
+            modelBuilder.Entity<OrderDetails>().HasData(
                 // Returned orders (avslutade)
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 1,
                     Date2Hire = new DateTime(2024, 9, 1),
@@ -403,7 +403,7 @@ namespace TooliRent.Infrastructure.Data
                     ToolId = 2,
                     ReservationId = null
                 },
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 2,
                     Date2Hire = new DateTime(2024, 9, 5),
@@ -419,7 +419,7 @@ namespace TooliRent.Infrastructure.Data
                     ToolId = 1,
                     ReservationId = null
                 },
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 3,
                     Date2Hire = new DateTime(2024, 9, 8),
@@ -435,7 +435,7 @@ namespace TooliRent.Infrastructure.Data
                     ToolId = 7,
                     ReservationId = null
                 },
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 4,
                     Date2Hire = new DateTime(2024, 9, 12),
@@ -451,7 +451,7 @@ namespace TooliRent.Infrastructure.Data
                     ToolId = 10,
                     ReservationId = null
                 },
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 5,
                     Date2Hire = new DateTime(2024, 10, 1),
@@ -469,7 +469,7 @@ namespace TooliRent.Infrastructure.Data
                 },
 
                 // CheckedOut orders (utlånade just nu)
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 6,
                     Date2Hire = new DateTime(2024, 10, 20),
@@ -485,7 +485,7 @@ namespace TooliRent.Infrastructure.Data
                     ToolId = 9,
                     ReservationId = null
                 },
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 7,
                     Date2Hire = new DateTime(2024, 10, 22),
@@ -503,7 +503,7 @@ namespace TooliRent.Infrastructure.Data
                 },
 
                 // Pending orders (kommande)
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 8,
                     Date2Hire = new DateTime(2024, 11, 5),
@@ -519,7 +519,7 @@ namespace TooliRent.Infrastructure.Data
                     ToolId = 15,
                     ReservationId = null
                 },
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 9,
                     Date2Hire = new DateTime(2024, 11, 10),
@@ -537,7 +537,7 @@ namespace TooliRent.Infrastructure.Data
                 },
 
                 // Cancelled order
-                new OrderDeatils
+                new OrderDetails
                 {
                     Id = 10,
                     Date2Hire = new DateTime(2024, 10, 15),

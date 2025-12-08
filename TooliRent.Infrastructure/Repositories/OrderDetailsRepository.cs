@@ -18,7 +18,7 @@ namespace TooliRent.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<OrderDeatils>> GetAllAsync()
+        public async Task<IEnumerable<OrderDetails>> GetAllAsync()
         {
             return await _context.OrderDeatils
                 .Include(o => o.User)
@@ -26,7 +26,7 @@ namespace TooliRent.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<OrderDeatils?> GetByIdAsync(int id)
+        public async Task<OrderDetails?> GetByIdAsync(int id)
         {
             return await _context.OrderDeatils
                 .Include(o => o.User)
@@ -34,14 +34,14 @@ namespace TooliRent.Infrastructure.Repositories
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<OrderDeatils> CreateAsync(OrderDeatils order)
+        public async Task<OrderDetails> CreateAsync(OrderDetails order)
         {
             await _context.OrderDeatils.AddAsync(order);
             await _context.SaveChangesAsync();
             return order;
         }
 
-        public async Task UpdateAsync(OrderDeatils order)
+        public async Task UpdateAsync(OrderDetails order)
         {
             _context.OrderDeatils.Update(order);
             await _context.SaveChangesAsync();

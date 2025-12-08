@@ -7,13 +7,13 @@ namespace TooliRent.Mapping
     {
         public OrderMappingProfile()
         {
-            CreateMap<OrderDeatils, OrderDetailsDTO>()
+            CreateMap<OrderDetails, OrderDetailsDTO>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src =>
                     src.User.FirstName + " " + src.User.LastName))
                 .ForMember(dest => dest.ToolName, opt => opt.MapFrom(src => src.Tool.Name))
                 .ForMember(dest => dest.ToolBrand, opt => opt.MapFrom(src => src.Tool.Brand));
 
-            CreateMap<CreateOrderDTO, OrderDeatils>();
+            CreateMap<CreateOrderDTO, OrderDetails>();
             //.ForMember(dest => dest.Id, opt => opt.Ignore())
             //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatus.Pending))
             //.ForMember(dest => dest.TotalPrice, opt => opt.Ignore())
@@ -26,7 +26,7 @@ namespace TooliRent.Mapping
             //.ForMember(dest => dest.User, opt => opt.Ignore())
             //.ForMember(dest => dest.Tool, opt => opt.Ignore());
 
-            CreateMap<UpdateOrderDTO, OrderDeatils>();
+            CreateMap<UpdateOrderDTO, OrderDetails>();
                 //.ForMember(dest => dest.Id, opt => opt.Ignore())
                 //.ForMember(dest => dest.Status, opt => opt.Ignore())
                 //.ForMember(dest => dest.TotalPrice, opt => opt.Ignore())

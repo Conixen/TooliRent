@@ -9,10 +9,10 @@ namespace TooliRent.Core.Interfaces.IRepository
 {
     public interface IOrderDetailsRepository
     {
-        Task<IEnumerable<OrderDeatils>> GetAllAsync();
-        Task<OrderDeatils?> GetByIdAsync(int id);
-        Task<OrderDeatils> CreateAsync(OrderDeatils order);
-        Task UpdateAsync(OrderDeatils order);
+        Task<IEnumerable<OrderDetails>> GetAllAsync();
+        Task<OrderDetails?> GetByIdAsync(int id);
+        Task<OrderDetails> CreateAsync(OrderDetails order);
+        Task UpdateAsync(OrderDetails order);
         Task DeleteAsync(int id);
 
         //Task<List<OrderDeatils>> GetByUserIdAsync(int userId);

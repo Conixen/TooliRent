@@ -12,8 +12,8 @@ using TooliRent.Infrastructure.Data;
 namespace TooliRent.Infrastructure.Migrations
 {
     [DbContext(typeof(TooliRentContext))]
-    [Migration("20251102234421_Innit")]
-    partial class Innit
+    [Migration("20251208210759_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,7 +78,7 @@ namespace TooliRent.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TooliRent.Models.OrderDeatils", b =>
+            modelBuilder.Entity("TooliRent.Models.OrderDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -621,7 +621,7 @@ namespace TooliRent.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TooliRent.Models.OrderDeatils", b =>
+            modelBuilder.Entity("TooliRent.Models.OrderDetails", b =>
                 {
                     b.HasOne("TooliRent.Models.Tool", "Tool")
                         .WithMany("OrderDetails")

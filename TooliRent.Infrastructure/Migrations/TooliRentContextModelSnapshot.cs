@@ -75,7 +75,7 @@ namespace TooliRent.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TooliRent.Models.OrderDeatils", b =>
+            modelBuilder.Entity("TooliRent.Models.OrderDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -618,7 +618,7 @@ namespace TooliRent.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TooliRent.Models.OrderDeatils", b =>
+            modelBuilder.Entity("TooliRent.Models.OrderDetails", b =>
                 {
                     b.HasOne("TooliRent.Models.Tool", "Tool")
                         .WithMany("OrderDetails")

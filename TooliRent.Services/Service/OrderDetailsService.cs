@@ -75,7 +75,7 @@ namespace TooliRent.Services.Service
                     );
                 }
 
-                var order = new OrderDeatils    // Create order
+                var order = new OrderDetails    // Create order
                 {
                     ToolId = toolId,
                     UserId = userId,

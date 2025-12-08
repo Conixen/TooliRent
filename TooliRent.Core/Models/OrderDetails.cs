@@ -2,7 +2,7 @@
 
 namespace TooliRent.Models
 {
-    public class OrderDeatils
+    public class OrderDetails
     {
         public int Id { get; set; }
         public DateTime Date2Hire { get; set; }
